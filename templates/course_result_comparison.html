@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+Course Result Comparison
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Course-wise Result Comparison</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Students with Results</th>
+                <th>Average Percentage</th>
+                <th>Highest Percentage</th>
+                <th>Lowest Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for course in courses %}
+
+            <tr>
+                <td>{{ course.course_id }}</td>
+                <td>{{ course.course_name }}</td>
+                <td>{{ course.students_with_results }}</td>
+
+                <td>
+                    {% if course.average_percentage is not none %}
+                        {{ course.average_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if course.highest_percentage is not none %}
+                        {{ course.highest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if course.lowest_percentage is not none %}
+                        {{ course.lowest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="6">
+                    No course result data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

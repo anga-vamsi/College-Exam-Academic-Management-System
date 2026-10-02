@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Department-wise Student Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Department-wise Student Report</h2>
+
+    <p>
+        Number of students enrolled under each department.
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Department ID</th>
+                <th>Department Name</th>
+                <th>Number of Students</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for department in departments %}
+
+            <tr>
+
+                <td>
+                    {{ department.dept_id }}
+                </td>
+
+                <td>
+                    {{ department.dept_name }}
+                </td>
+
+                <td>
+                    {{ department.student_count }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

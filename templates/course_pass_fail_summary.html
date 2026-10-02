@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Course Pass / Fail Summary</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Course ID</th>
+            <th>Course Name</th>
+            <th>Total Results</th>
+            <th>Passed Students</th>
+            <th>Failed Students</th>
+            <th>Pass Percentage</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <td>{{ course.course_id }}</td>
+            <td>{{ course.course_name }}</td>
+            <td>{{ course.total_results }}</td>
+            <td>{{ course.passed_students }}</td>
+            <td>{{ course.failed_students }}</td>
+            <td>
+                {% if course.pass_percentage is not none %}
+                    {{ course.pass_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

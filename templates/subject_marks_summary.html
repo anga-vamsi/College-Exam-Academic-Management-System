@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Subject-wise Marks Summary</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Course</th>
+            <th>Students</th>
+            <th>Average %</th>
+            <th>Highest %</th>
+            <th>Lowest %</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.subject_code }}</td>
+            <td>{{ subject.subject_name }}</td>
+            <td>{{ subject.course_name }}</td>
+            <td>{{ subject.students_count }}</td>
+
+            <td>
+                {% if subject.average_percentage is not none %}
+                    {{ subject.average_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <td>
+                {% if subject.highest_percentage is not none %}
+                    {{ subject.highest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+
+            <td>
+                {% if subject.lowest_percentage is not none %}
+                    {{ subject.lowest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+Passed Students Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Passed Students Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Exam</th>
+                <th>Total Marks</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+                <td>{{ student.roll_no }}</td>
+                <td>{{ student.student_name }}</td>
+                <td>{{ student.course_name }}</td>
+                <td>{{ student.exam_name }}</td>
+                <td>{{ student.total_marks }}</td>
+                <td>{{ student.percentage }}%</td>
+                <td>{{ student.grade }}</td>
+                <td>{{ student.result_status }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="8">
+                    No passed students found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

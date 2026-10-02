@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+
+<h2>My Profile</h2>
+
+<p>
+    <strong>Username:</strong>
+    {{ username }}
+</p>
+
+<p>
+    <strong>Email:</strong>
+    {{ email }}
+</p>
+
+<p>
+    <strong>Role:</strong>
+    {{ session.get("role") }}
+</p>
+
+{% if session.get("student_id") %}
+
+    <p>
+        <strong>Student ID:</strong>
+        {{ session.get("student_id") }}
+    </p>
+
+{% endif %}
+
+<br>
+
+<a href="{{ url_for('home') }}">
+    Back to Dashboard
+</a>
+
+<br><br>
+
+<a href="{{ url_for('logout') }}">
+    Logout
+</a>
+
+
+</div>
+
+{% endblock %}

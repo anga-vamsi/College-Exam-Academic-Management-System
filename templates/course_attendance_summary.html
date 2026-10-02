@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+Course Attendance Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Course Attendance Summary</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Students with Attendance</th>
+                <th>Total Classes</th>
+                <th>Attended Classes</th>
+                <th>Attendance Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for course in courses %}
+
+            <tr>
+                <td>{{ course.course_id }}</td>
+                <td>{{ course.course_name }}</td>
+                <td>{{ course.students_with_attendance }}</td>
+                <td>{{ course.total_classes or 0 }}</td>
+                <td>{{ course.attended_classes or 0 }}</td>
+
+                <td>
+                    {% if course.attendance_percentage is not none %}
+                        {{ course.attendance_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="6">
+                    No course attendance data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

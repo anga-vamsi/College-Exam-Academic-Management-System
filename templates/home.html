@@ -1,0 +1,420 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+
+<h2>Academic Management Dashboard</h2>
+
+<p>
+    Welcome to the College Exam & Academic Management System.
+</p>
+
+
+<!-- Main Statistics -->
+
+<div class="dashboard-cards">
+
+    <div class="card">
+        <h3>Students</h3>
+        <div class="count">{{ students }}</div>
+        <p>Registered students</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Faculty</h3>
+        <div class="count">{{ faculty }}</div>
+        <p>Faculty members</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Courses</h3>
+        <div class="count">{{ courses }}</div>
+        <p>Available courses</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Subjects</h3>
+        <div class="count">{{ subjects }}</div>
+        <p>Available subjects</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Exams</h3>
+        <div class="count">{{ exams }}</div>
+        <p>Scheduled examinations</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Results</h3>
+        <div class="count">{{ results }}</div>
+        <p>Published results</p>
+    </div>
+
+
+    <div class="card">
+        <h3>Attendance</h3>
+        <div class="count">{{ attendance }}</div>
+        <p>Attendance records</p>
+    </div>
+
+</div>
+
+
+<!-- Academic Reports -->
+<!-- Reports are available only to Admin and Principal -->
+
+{% if session.get("role") in ["ADMIN", "PRINCIPAL"] %}
+
+<div class="dashboard-section">
+
+    <h2>Academic Reports</h2>
+
+    <div class="dashboard-cards">
+
+        <div class="card">
+
+            <h3>Attendance Summary</h3>
+
+            <p>
+                View overall attendance statistics.
+            </p>
+
+            <a href="{{ url_for('attendance_summary') }}">
+                View Report
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Course Performance</h3>
+
+            <p>
+                Analyze academic performance by course.
+            </p>
+
+            <a href="{{ url_for('course_performance') }}">
+                View Report
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Course Student Report</h3>
+
+            <p>
+                View students organized by course.
+            </p>
+
+            <a href="{{ url_for('course_student_report') }}">
+                View Report
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Department Student Report</h3>
+
+            <p>
+                View students organized by department.
+            </p>
+
+            <a href="{{ url_for('department_student_report') }}">
+                View Report
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- Quick Navigation -->
+
+<div class="dashboard-section">
+
+    <h2>Quick Navigation</h2>
+
+    <div class="dashboard-cards">
+
+
+        <!-- ADMIN -->
+
+        {% if session.get("role") == "ADMIN" %}
+
+            <div class="card">
+
+                <h3>Students</h3>
+
+                <p>
+                    Manage student records.
+                </p>
+
+                <a href="{{ url_for('students') }}">
+                    Manage Students
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Faculty</h3>
+
+                <p>
+                    Manage faculty records.
+                </p>
+
+                <a href="{{ url_for('faculty') }}">
+                    Manage Faculty
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Courses</h3>
+
+                <p>
+                    Manage available courses.
+                </p>
+
+                <a href="{{ url_for('courses') }}">
+                    Manage Courses
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Subjects</h3>
+
+                <p>
+                    Manage academic subjects.
+                </p>
+
+                <a href="{{ url_for('subjects') }}">
+                    Manage Subjects
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Exams</h3>
+
+                <p>
+                    Manage examination schedules.
+                </p>
+
+                <a href="{{ url_for('exams') }}">
+                    Manage Exams
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Results</h3>
+
+                <p>
+                    Manage examination results.
+                </p>
+
+                <a href="{{ url_for('results') }}">
+                    Manage Results
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Attendance</h3>
+
+                <p>
+                    Manage student attendance.
+                </p>
+
+                <a href="{{ url_for('attendance') }}">
+                    Manage Attendance
+                </a>
+
+            </div>
+
+
+        <!-- PRINCIPAL -->
+
+        {% elif session.get("role") == "PRINCIPAL" %}
+
+            <div class="card">
+
+                <h3>Students</h3>
+
+                <p>
+                    View and register student records.
+                </p>
+
+                <a href="{{ url_for('students') }}">
+                    View Students
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Courses</h3>
+
+                <p>
+                    View and add college courses.
+                </p>
+
+                <a href="{{ url_for('courses') }}">
+                    View Courses
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Subjects</h3>
+
+                <p>
+                    View and add academic subjects.
+                </p>
+
+                <a href="{{ url_for('subjects') }}">
+                    View Subjects
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Exams</h3>
+
+                <p>
+                    View and add examination schedules.
+                </p>
+
+                <a href="{{ url_for('exams') }}">
+                    View Exams
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Results</h3>
+
+                <p>
+                    View published examination results.
+                </p>
+
+                <a href="{{ url_for('results') }}">
+                    View Results
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Attendance</h3>
+
+                <p>
+                    View student attendance records.
+                </p>
+
+                <a href="{{ url_for('attendance') }}">
+                    View Attendance
+                </a>
+
+            </div>
+
+
+        <!-- FACULTY -->
+
+        {% elif session.get("role") == "FACULTY" %}
+
+            <div class="card">
+
+                <h3>Subjects</h3>
+
+                <p>
+                    View and add academic subjects.
+                </p>
+
+                <a href="{{ url_for('subjects') }}">
+                    Manage Subjects
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Results</h3>
+
+                <p>
+                    View published examination results.
+                </p>
+
+                <a href="{{ url_for('results') }}">
+                    View Results
+                </a>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Attendance</h3>
+
+                <p>
+                    View student attendance records.
+                </p>
+
+                <a href="{{ url_for('attendance') }}">
+                    View Attendance
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+</div>
+
+{% endblock %}

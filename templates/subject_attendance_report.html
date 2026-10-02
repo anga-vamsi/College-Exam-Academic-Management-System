@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+Subject Attendance Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Subject Attendance Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Course</th>
+                <th>Students</th>
+                <th>Total Classes</th>
+                <th>Attended Classes</th>
+                <th>Attendance Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for subject in subjects %}
+
+            <tr>
+                <td>{{ subject.subject_code }}</td>
+                <td>{{ subject.subject_name }}</td>
+                <td>{{ subject.course_name }}</td>
+                <td>{{ subject.students_count }}</td>
+                <td>{{ subject.total_classes }}</td>
+                <td>{{ subject.attended_classes }}</td>
+
+                <td>
+                    {% if subject.attendance_percentage is not none %}
+                        {{ subject.attendance_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="7">
+                    No subject attendance data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

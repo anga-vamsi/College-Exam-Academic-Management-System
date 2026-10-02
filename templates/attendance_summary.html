@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Overall Attendance Summary</h2>
+
+    <p>
+        Student-wise attendance across all subjects
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+
+            <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Total Classes</th>
+                <th>Attended</th>
+                <th>Attendance %</th>
+                <th>Dashboard</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            {% for record in summary %}
+
+            <tr>
+
+                <td>{{ record.roll_no }}</td>
+
+                <td>{{ record.student_name }}</td>
+
+                <td>{{ record.course_name }}</td>
+
+                <td>{{ record.total_classes }}</td>
+
+                <td>{{ record.attended_classes }}</td>
+
+                <td>{{ record.attendance_percentage }}%</td>
+
+                <td>
+                    <a href="{{ url_for(
+                        'student_dashboard',
+                        student_id=record.student_id
+                    ) }}">
+                        View
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

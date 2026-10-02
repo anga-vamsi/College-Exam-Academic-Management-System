@@ -1,0 +1,1 @@
+console.log("College Academic System loaded");

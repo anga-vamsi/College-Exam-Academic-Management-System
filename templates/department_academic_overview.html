@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Department Academic Overview</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Students</th>
+            <th>Average Result %</th>
+            <th>Attendance %</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.dept_id }}</td>
+            <td>{{ department.dept_name }}</td>
+            <td>{{ department.students_count }}</td>
+            <td>{{ department.average_percentage }}%</td>
+            <td>{{ department.attendance_percentage }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+Exam Result Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Exam-wise Result Summary</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Academic Year</th>
+                <th>Semester</th>
+                <th>Total Students</th>
+                <th>Average %</th>
+                <th>Highest %</th>
+                <th>Lowest %</th>
+                <th>Passed</th>
+                <th>Failed</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for exam in exams %}
+
+            <tr>
+                <td>{{ exam.exam_name }}</td>
+                <td>{{ exam.academic_year }}</td>
+                <td>{{ exam.semester }}</td>
+                <td>{{ exam.total_students }}</td>
+
+                <td>
+                    {% if exam.average_percentage is not none %}
+                        {{ exam.average_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if exam.highest_percentage is not none %}
+                        {{ exam.highest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if exam.lowest_percentage is not none %}
+                        {{ exam.lowest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>{{ exam.passed_students or 0 }}</td>
+                <td>{{ exam.failed_students or 0 }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="9">
+                    No examination result data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

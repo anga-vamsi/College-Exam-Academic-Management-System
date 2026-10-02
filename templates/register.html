@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Registration
+{% endblock %}
+
+{% block content %}
+
+<div class="form-container">
+
+
+<h2>Student Registration</h2>
+
+<p>
+    Create your student account to access the College Academic System.
+</p>
+
+
+<!-- Flash Messages -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+
+    {% if messages %}
+
+        {% for category, message in messages %}
+
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+{% endwith %}
+
+
+<!-- Registration Form -->
+
+<form method="POST" action="{{ url_for('register') }}">
+
+    <!-- CSRF Protection -->
+
+    <input
+        type="hidden"
+        name="_csrf_token"
+        value="{{ csrf_token() }}"
+    >
+
+
+    <label for="username">
+        Username
+    </label>
+
+    <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="Enter username"
+        required
+    >
+
+
+    <label for="email">
+        Email
+    </label>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+        required
+    >
+
+
+    <label for="password">
+        Password
+    </label>
+
+    <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Enter password"
+        required
+    >
+
+
+    <label for="confirm_password">
+        Confirm Password
+    </label>
+
+    <input
+        type="password"
+        id="confirm_password"
+        name="confirm_password"
+        placeholder="Confirm password"
+        required
+    >
+
+
+    <button type="submit">
+        Register as Student
+    </button>
+
+</form>
+
+
+<p>
+    Already have an account?
+    <a href="{{ url_for('login') }}">
+        Login here
+    </a>
+</p>
+
+
+</div>
+
+{% endblock %}

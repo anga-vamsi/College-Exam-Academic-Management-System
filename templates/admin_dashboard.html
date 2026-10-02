@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Admin Dashboard</h2>
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h3>Students</h3>
+        <p>{{ student_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Faculty</h3>
+        <p>{{ faculty_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Courses</h3>
+        <p>{{ course_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Subjects</h3>
+        <p>{{ subject_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Exams</h3>
+        <p>{{ exam_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Results</h3>
+        <p>{{ result_count }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Attendance Records</h3>
+        <p>{{ attendance_count }}</p>
+    </div>
+
+</div>
+
+{% endblock %}

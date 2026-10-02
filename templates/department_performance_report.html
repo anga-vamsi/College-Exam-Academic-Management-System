@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="report-container">
+
+    {% include "includes/report_header.html" %}
+
+    {% include "includes/report_actions.html" %}
+
+    {% if data %}
+
+    <table class="report-table">
+
+        <thead>
+            <tr>
+
+                {% for column in data[0].keys() %}
+                    <th>{{ column }}</th>
+                {% endfor %}
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for row in data %}
+
+            <tr>
+
+                {% for value in row.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    {% else %}
+
+        <div class="empty-state">
+            <h3>No Data Available</h3>
+            <p>No records were found for this report.</p>
+        </div>
+
+    {% endif %}
+
+    {% include "includes/report_footer.html" %}
+
+</div>
+
+{% endblock %}

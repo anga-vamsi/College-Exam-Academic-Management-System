@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+<h2>Student Attendance</h2>
+
+<p>Attendance records by subject</p>
+
+<table class="data-table">
+
+    <thead>
+        <tr>
+            <th>Roll No</th>
+            <th>Student Name</th>
+            <th>Subject</th>
+            <th>Total Classes</th>
+            <th>Attended</th>
+            <th>Attendance %</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for record in attendance %}
+
+        <tr>
+            <td>{{ record.roll_no }}</td>
+            <td>{{ record.student_name }}</td>
+
+            <td>
+                {{ record.subject_code }} -
+                {{ record.subject_name }}
+            </td>
+
+            <td>{{ record.total_classes }}</td>
+            <td>{{ record.attended_classes }}</td>
+            <td>{{ record.attendance_percentage }}%</td>
+
+            <td>
+
+                {% if session.get("role") == "ADMIN" %}
+
+                    <a href="{{ url_for('edit_attendance', attendance_id=record.attendance_id) }}">
+                        Edit
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('delete_attendance', attendance_id=record.attendance_id) }}"
+                        style="display: inline;"
+                        onsubmit="return confirm('Are you sure you want to delete this attendance record?');"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="_csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+                        <button type="submit">
+                            Delete
+                        </button>
+
+                    </form>
+
+                {% endif %}
+
+                <a href="{{ url_for('student_attendance', student_id=record.student_id) }}">
+                    Student Report
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+</div>
+
+{% endblock %}

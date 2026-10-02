@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Result
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+<h2>Edit Result</h2>
+
+<div class="form-container">
+
+    <p>
+        <strong>Student:</strong>
+        {{ result.roll_no }} - {{ result.student_name }}
+    </p>
+
+    <p>
+        <strong>Exam:</strong>
+        {{ result.exam_name }}
+    </p>
+
+
+    <form method="POST">
+
+        <!-- CSRF Protection -->
+
+        <input
+            type="hidden"
+            name="_csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+
+        <div class="form-group">
+
+            <label>Total Marks</label>
+
+            <input
+                type="number"
+                name="total_marks"
+                value="{{ result.total_marks }}"
+                step="0.01"
+                min="0"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Percentage</label>
+
+            <input
+                type="number"
+                name="percentage"
+                value="{{ result.percentage }}"
+                step="0.01"
+                min="0"
+                max="100"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Grade</label>
+
+            <input
+                type="text"
+                name="grade"
+                value="{{ result.grade }}"
+                maxlength="5"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Result Status</label>
+
+            <select name="result_status" required>
+
+                <option
+                    value="PASS"
+                    {% if result.result_status == "PASS" %}
+                        selected
+                    {% endif %}
+                >
+                    PASS
+                </option>
+
+                <option
+                    value="FAIL"
+                    {% if result.result_status == "FAIL" %}
+                        selected
+                    {% endif %}
+                >
+                    FAIL
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button type="submit">
+            Update Result
+        </button>
+
+        <a href="{{ url_for('results') }}">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+
+</div>
+
+{% endblock %}

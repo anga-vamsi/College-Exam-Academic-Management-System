@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Top Students Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Top Students Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Roll Number</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Exams</th>
+                <th>Average Percentage</th>
+                <th>Highest Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ student.roll_no }}</td>
+                <td>{{ student.student_name }}</td>
+                <td>{{ student.course_name }}</td>
+                <td>{{ student.exams_count }}</td>
+                <td>{{ student.average_percentage }}%</td>
+                <td>{{ student.highest_percentage }}%</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="7">
+                    No student result data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

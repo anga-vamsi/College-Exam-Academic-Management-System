@@ -1,0 +1,24 @@
+.table-search-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+.table-search-container label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+.table-search-container input {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.table-search-container input:focus {
+    outline: none;
+    border-color: #007bff;
+}

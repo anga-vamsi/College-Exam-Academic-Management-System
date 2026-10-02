@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Course-wise Student Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Course-wise Student Report</h2>
+
+    <p>
+        Number of students enrolled in each course.
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Course ID</th>
+                <th>Course Name</th>
+                <th>Department</th>
+                <th>Number of Students</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for course in courses %}
+
+            <tr>
+
+                <td>
+                    {{ course.course_id }}
+                </td>
+
+                <td>
+                    {{ course.course_name }}
+                </td>
+
+                <td>
+                    {{ course.dept_name }}
+                </td>
+
+                <td>
+                    {{ course.student_count }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

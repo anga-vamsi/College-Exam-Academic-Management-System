@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Department Result Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Department-wise Result Summary</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Total Results</th>
+                <th>Average %</th>
+                <th>Highest %</th>
+                <th>Lowest %</th>
+                <th>Passed</th>
+                <th>Failed</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for department in departments %}
+
+            <tr>
+                <td>{{ department.dept_name }}</td>
+
+                <td>{{ department.total_results }}</td>
+
+                <td>
+                    {% if department.average_percentage is not none %}
+                        {{ department.average_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if department.highest_percentage is not none %}
+                        {{ department.highest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if department.lowest_percentage is not none %}
+                        {{ department.lowest_percentage }}%
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+
+                <td>{{ department.passed_students or 0 }}</td>
+                <td>{{ department.failed_students or 0 }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="7">
+                    No department result data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Subject
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+    <h2>Edit Subject</h2>
+
+<div class="form-container">
+
+    <form method="POST">
+
+        <!-- CSRF Protection -->
+
+        <input
+            type="hidden"
+            name="_csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+
+        <div class="form-group">
+
+            <label>Subject Code</label>
+
+            <input
+                type="text"
+                name="subject_code"
+                value="{{ subject.subject_code }}"
+                maxlength="20"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Subject Name</label>
+
+            <input
+                type="text"
+                name="subject_name"
+                value="{{ subject.subject_name }}"
+                maxlength="100"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Credits</label>
+
+            <input
+                type="number"
+                name="credits"
+                value="{{ subject.credits }}"
+                min="1"
+                max="10"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Semester</label>
+
+            <input
+                type="number"
+                name="semester"
+                value="{{ subject.semester }}"
+                min="1"
+                max="8"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Course</label>
+
+            <select name="course_id" required>
+
+                {% for course in courses %}
+
+                <option
+                    value="{{ course.course_id }}"
+                    {% if course.course_id == subject.course_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ course.course_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Faculty</label>
+
+            <select name="faculty_id">
+
+                <option value="">
+                    Select Faculty
+                </option>
+
+                {% for member in faculty %}
+
+                <option
+                    value="{{ member.faculty_id }}"
+                    {% if member.faculty_id == subject.faculty_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ member.name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <button type="submit">
+            Update Subject
+        </button>
+
+        <a href="{{ url_for('subjects') }}">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+
+</div>
+
+{% endblock %}

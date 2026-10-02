@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Exam Schedule
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+<h2>Edit Exam Schedule</h2>
+
+<div class="form-container">
+
+    <form method="POST">
+
+        <!-- CSRF Protection -->
+
+        <input
+            type="hidden"
+            name="_csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+
+        <div class="form-group">
+
+            <label>Exam</label>
+
+            <select name="exam_id" required>
+
+                {% for exam in exam_list %}
+
+                <option
+                    value="{{ exam.exam_id }}"
+                    {% if exam.exam_id == schedule.exam_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ exam.exam_name }}
+                    - Semester {{ exam.semester }}
+                    - {{ exam.academic_year }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Subject</label>
+
+            <select name="subject_id" required>
+
+                {% for subject in subjects %}
+
+                <option
+                    value="{{ subject.subject_id }}"
+                    {% if subject.subject_id == schedule.subject_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ subject.subject_code }}
+                    - {{ subject.subject_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Exam Date</label>
+
+            <input
+                type="date"
+                name="exam_date"
+                value="{{ schedule.exam_date }}"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Exam Time</label>
+
+            <input
+                type="time"
+                name="exam_time"
+                value="{{ schedule.exam_time }}"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Room Number</label>
+
+            <input
+                type="text"
+                name="room_no"
+                value="{{ schedule.room_no }}"
+                maxlength="20"
+                required
+            >
+
+        </div>
+
+
+        <button type="submit">
+            Update Exam Schedule
+        </button>
+
+        <a href="{{ url_for('exams') }}">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+
+</div>
+
+{% endblock %}

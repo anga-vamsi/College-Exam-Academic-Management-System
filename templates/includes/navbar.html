@@ -1,0 +1,158 @@
+<nav class="navbar">
+
+
+<div class="navbar-brand">
+    <a href="{{ url_for('home') }}">
+        College Academic System
+    </a>
+</div>
+
+<div class="navbar-links">
+
+    {% if session.get("role") == "ADMIN" %}
+
+        <!-- Admin Dashboard -->
+        <a href="{{ url_for('home') }}">
+            Dashboard
+        </a>
+
+        <!-- Academic Management -->
+        <a href="{{ url_for('students') }}">
+            Students
+        </a>
+
+        <a href="{{ url_for('faculty') }}">
+            Faculty
+        </a>
+
+        <a href="{{ url_for('courses') }}">
+            Courses
+        </a>
+
+        <a href="{{ url_for('subjects') }}">
+            Subjects
+        </a>
+
+        <a href="{{ url_for('exams') }}">
+            Exams
+        </a>
+
+        <a href="{{ url_for('results') }}">
+            Results
+        </a>
+
+        <a href="{{ url_for('attendance') }}">
+            Attendance
+        </a>
+
+        <!-- Reports -->
+        <a href="{{ url_for('attendance_summary') }}">
+            Attendance Summary
+        </a>
+
+        <a href="{{ url_for('course_performance') }}">
+            Course Performance
+        </a>
+
+        <a href="{{ url_for('course_student_report') }}">
+            Course Student Report
+        </a>
+
+        <a href="{{ url_for('department_student_report') }}">
+            Department Student Report
+        </a>
+
+    {% elif session.get("role") == "PRINCIPAL" %}
+
+        <!-- Principal Dashboard -->
+        <a href="{{ url_for('home') }}">
+            Dashboard
+        </a>
+
+        <!-- Academic Management -->
+        <a href="{{ url_for('students') }}">
+            Students
+        </a>
+
+        <a href="{{ url_for('courses') }}">
+            Courses
+        </a>
+
+        <a href="{{ url_for('subjects') }}">
+            Subjects
+        </a>
+
+        <a href="{{ url_for('exams') }}">
+            Exams
+        </a>
+
+        <a href="{{ url_for('results') }}">
+            Results
+        </a>
+
+        <a href="{{ url_for('attendance') }}">
+            Attendance
+        </a>
+
+        <!-- Reports -->
+        <a href="{{ url_for('attendance_summary') }}">
+            Attendance Summary
+        </a>
+
+        <a href="{{ url_for('course_performance') }}">
+            Course Performance
+        </a>
+
+        <a href="{{ url_for('course_student_report') }}">
+            Course Student Report
+        </a>
+
+        <a href="{{ url_for('department_student_report') }}">
+            Department Student Report
+        </a>
+
+    {% elif session.get("role") == "FACULTY" %}
+
+        <!-- Faculty Dashboard -->
+        <a href="{{ url_for('home') }}">
+            Dashboard
+        </a>
+
+        <!-- Faculty Academic Access -->
+        <a href="{{ url_for('subjects') }}">
+            Subjects
+        </a>
+
+        <a href="{{ url_for('results') }}">
+            Results
+        </a>
+
+        <a href="{{ url_for('attendance') }}">
+            Attendance
+        </a>
+
+    {% elif session.get("role") == "STUDENT" %}
+
+        {% if session.get("student_id") %}
+
+            <!-- Student Personal Dashboard -->
+            <a href="{{ url_for('student_dashboard', student_id=session.get('student_id')) }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('student_attendance', student_id=session.get('student_id')) }}">
+                My Attendance
+            </a>
+
+            <a href="{{ url_for('student_performance', student_id=session.get('student_id')) }}">
+                My Performance
+            </a>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+
+</nav>

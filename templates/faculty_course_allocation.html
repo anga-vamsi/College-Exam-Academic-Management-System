@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Faculty-wise Course Allocation</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Faculty ID</th>
+            <th>Faculty Name</th>
+            <th>Department</th>
+            <th>Course</th>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for item in faculty %}
+        <tr>
+            <td>{{ item.faculty_id }}</td>
+            <td>{{ item.faculty_name }}</td>
+            <td>{{ item.dept_name }}</td>
+            <td>
+                {% if item.course_name %}
+                    {{ item.course_name }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if item.subject_code %}
+                    {{ item.subject_code }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if item.subject_name %}
+                    {{ item.subject_name }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

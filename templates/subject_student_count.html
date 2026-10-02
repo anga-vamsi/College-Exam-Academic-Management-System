@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Subject-wise Student Count</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Subject ID</th>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Course</th>
+            <th>Faculty</th>
+            <th>Student Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.subject_id }}</td>
+            <td>{{ subject.subject_code }}</td>
+            <td>{{ subject.subject_name }}</td>
+            <td>{{ subject.course_name }}</td>
+            <td>{{ subject.faculty_name }}</td>
+            <td>{{ subject.student_count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Attendance
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+<h2>Student Attendance Report</h2>
+
+{% if attendance %}
+
+<p>
+    <strong>Student:</strong>
+    {{ attendance[0].student_name }}
+</p>
+
+<p>
+    <strong>Roll No:</strong>
+    {{ attendance[0].roll_no }}
+</p>
+
+<table class="data-table">
+
+    <thead>
+        <tr>
+            <th>Subject Code</th>
+            <th>Subject</th>
+            <th>Total Classes</th>
+            <th>Attended Classes</th>
+            <th>Attendance</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for record in attendance %}
+
+        <tr>
+            <td>{{ record.subject_code }}</td>
+            <td>{{ record.subject_name }}</td>
+            <td>{{ record.total_classes }}</td>
+            <td>{{ record.attended_classes }}</td>
+            <td>{{ record.attendance_percentage }}%</td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p>No attendance records found for this student.</p>
+
+{% endif %}
+
+
+<!-- Navigation -->
+
+<div class="form-container">
+
+    {% if session.get("role") == "STUDENT" %}
+
+        <a href="{{ url_for('student_dashboard', student_id=session.get('student_id')) }}">
+            ← Back to Dashboard
+        </a>
+
+    {% elif session.get("role") in ["ADMIN", "PRINCIPAL"] %}
+
+        <a href="{{ url_for('students') }}">
+            ← Back to Students
+        </a>
+
+    {% elif session.get("role") == "FACULTY" %}
+
+        <a href="{{ url_for('home') }}">
+            ← Back to Dashboard
+        </a>
+
+    {% endif %}
+
+</div>
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Exam Schedule Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Exam Schedule Report</h2>
+
+    <p>
+        Complete examination schedule including subjects, dates, times, and rooms.
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Academic Year</th>
+                <th>Semester</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Exam Date</th>
+                <th>Exam Time</th>
+                <th>Room</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for schedule in schedules %}
+
+            <tr>
+
+                <td>
+                    {{ schedule.exam_name }}
+                </td>
+
+                <td>
+                    {{ schedule.academic_year }}
+                </td>
+
+                <td>
+                    {{ schedule.semester }}
+                </td>
+
+                <td>
+                    {{ schedule.subject_code }}
+                </td>
+
+                <td>
+                    {{ schedule.subject_name }}
+                </td>
+
+                <td>
+                    {{ schedule.exam_date }}
+                </td>
+
+                <td>
+                    {{ schedule.exam_time }}
+                </td>
+
+                <td>
+                    {{ schedule.room_no }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Department-wise Subject Summary</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Total Courses</th>
+            <th>Total Subjects</th>
+            <th>Total Credits</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.dept_id }}</td>
+            <td>{{ department.dept_name }}</td>
+            <td>{{ department.total_courses }}</td>
+            <td>{{ department.total_subjects }}</td>
+            <td>{{ department.total_credits }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

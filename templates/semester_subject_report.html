@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Semester-wise Subject Report</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Semester</th>
+            <th>Course</th>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Credits</th>
+            <th>Faculty</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for subject in subjects %}
+        <tr>
+            <td>{{ subject.semester }}</td>
+            <td>{{ subject.course_name }}</td>
+            <td>{{ subject.subject_code }}</td>
+            <td>{{ subject.subject_name }}</td>
+            <td>{{ subject.credits }}</td>
+            <td>{{ subject.faculty_name }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

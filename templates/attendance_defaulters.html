@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Defaulters
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Attendance Defaulters Report</h2>
+
+    <p>Students with overall attendance below 75%.</p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Total Classes</th>
+                <th>Attended Classes</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+                <td>{{ student.roll_no }}</td>
+                <td>{{ student.student_name }}</td>
+                <td>{{ student.course_name }}</td>
+                <td>{{ student.total_classes }}</td>
+                <td>{{ student.attended_classes }}</td>
+                <td>{{ student.attendance_percentage }}%</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="6">
+                    No attendance defaulters found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

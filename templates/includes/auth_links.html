@@ -1,0 +1,44 @@
+
+<div class="auth-links">
+
+    {% if session.get("username") %}
+
+        <span>
+            Welcome, {{ session.get("username") }}
+        </span>
+
+        <a href="{{ url_for('profile') }}">
+            Profile
+        </a>
+
+        <form
+            method="POST"
+            action="{{ url_for('logout') }}"
+            style="display: inline;"
+        >
+
+            <input
+                type="hidden"
+                name="_csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <button type="submit">
+                Logout
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <a href="{{ url_for('login') }}">
+            Login
+        </a>
+
+        <a href="{{ url_for('register') }}">
+            Register
+        </a>
+
+    {% endif %}
+
+</div>

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Exam-wise Student Performance</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Exam</th>
+            <th>Academic Year</th>
+            <th>Semester</th>
+            <th>Total Students</th>
+            <th>Average %</th>
+            <th>Highest %</th>
+            <th>Lowest %</th>
+            <th>Passed</th>
+            <th>Failed</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for exam in exams %}
+        <tr>
+            <td>{{ exam.exam_name }}</td>
+            <td>{{ exam.academic_year }}</td>
+            <td>{{ exam.semester }}</td>
+            <td>{{ exam.total_students }}</td>
+            <td>
+                {% if exam.average_percentage is not none %}
+                    {{ exam.average_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if exam.highest_percentage is not none %}
+                    {{ exam.highest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if exam.lowest_percentage is not none %}
+                    {{ exam.lowest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>{{ exam.passed_students }}</td>
+            <td>{{ exam.failed_students }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

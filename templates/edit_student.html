@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Student
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+    <h2>Edit Student</h2>
+
+<div class="form-container">
+
+    <form method="POST">
+
+        <!-- CSRF Protection -->
+
+        <input
+            type="hidden"
+            name="_csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+
+        <div class="form-group">
+
+            <label>Roll Number</label>
+
+            <input
+                type="text"
+                name="roll_no"
+                value="{{ student.roll_no }}"
+                maxlength="30"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Name</label>
+
+            <input
+                type="text"
+                name="name"
+                value="{{ student.name }}"
+                maxlength="100"
+                required
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Date of Birth</label>
+
+            <input
+                type="date"
+                name="dob"
+                value="{{ student.dob }}"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Gender</label>
+
+            <select name="gender">
+
+                <option
+                    value="Male"
+                    {% if student.gender == "Male" %}selected{% endif %}
+                >
+                    Male
+                </option>
+
+                <option
+                    value="Female"
+                    {% if student.gender == "Female" %}selected{% endif %}
+                >
+                    Female
+                </option>
+
+                <option
+                    value="Other"
+                    {% if student.gender == "Other" %}selected{% endif %}
+                >
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                name="email"
+                value="{{ student.email }}"
+                maxlength="100"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Phone</label>
+
+            <input
+                type="text"
+                name="phone"
+                value="{{ student.phone }}"
+                maxlength="15"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Course</label>
+
+            <select name="course_id" required>
+
+                {% for course in courses %}
+
+                <option
+                    value="{{ course.course_id }}"
+                    {% if course.course_id == student.course_id %}
+                        selected
+                    {% endif %}
+                >
+                    {{ course.course_name }}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>Admission Year</label>
+
+            <input
+                type="number"
+                name="admission_year"
+                value="{{ student.admission_year }}"
+                min="2000"
+                max="2100"
+            >
+
+        </div>
+
+
+        <button type="submit">
+            Update Student
+        </button>
+
+        <a href="{{ url_for('students') }}">
+            Cancel
+        </a>
+
+    </form>
+
+</div>
+
+
+</div>
+
+{% endblock %}

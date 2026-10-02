@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Department-wise Attendance Summary</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Students</th>
+            <th>Total Classes</th>
+            <th>Attended Classes</th>
+            <th>Absent Classes</th>
+            <th>Attendance Percentage</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.dept_id }}</td>
+            <td>{{ department.dept_name }}</td>
+            <td>{{ department.students_count }}</td>
+            <td>{{ department.total_classes }}</td>
+            <td>{{ department.attended_classes }}</td>
+            <td>{{ department.absent_classes }}</td>
+            <td>{{ department.attendance_percentage }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

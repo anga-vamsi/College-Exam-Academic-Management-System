@@ -1,0 +1,26 @@
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+}
+
+.table-responsive table {
+    min-width: 600px;
+}
+
+.scroll-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: none;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 50%;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.scroll-top.active {
+    display: block;
+}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+Subject-wise Faculty Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Subject-wise Faculty Report</h2>
+
+    <p>
+        Faculty members assigned to each subject.
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Course</th>
+                <th>Credits</th>
+                <th>Semester</th>
+                <th>Faculty</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for subject in subjects %}
+
+            <tr>
+
+                <td>
+                    {{ subject.subject_code }}
+                </td>
+
+                <td>
+                    {{ subject.subject_name }}
+                </td>
+
+                <td>
+                    {{ subject.course_name }}
+                </td>
+
+                <td>
+                    {{ subject.credits }}
+                </td>
+
+                <td>
+                    {{ subject.semester }}
+                </td>
+
+                <td>
+                    {{ subject.faculty_name }}
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

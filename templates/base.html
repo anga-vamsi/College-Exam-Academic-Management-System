@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "includes/head.html" %}
+</head>
+
+<body>
+
+    {% include "includes/navbar.html" %}
+
+    {% include "includes/auth_links.html" %}
+
+    {% include "includes/flash_messages.html" %}
+
+    <main class="main-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+    {% include "includes/footer.html" %}
+
+    {% include "includes/scripts.html" %}
+
+</body>
+
+</html>

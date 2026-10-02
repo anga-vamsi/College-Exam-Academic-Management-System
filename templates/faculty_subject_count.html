@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Faculty-wise Subject Count</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Faculty ID</th>
+            <th>Faculty Name</th>
+            <th>Department</th>
+            <th>Subject Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for faculty_member in faculty %}
+        <tr>
+            <td>{{ faculty_member.faculty_id }}</td>
+            <td>{{ faculty_member.faculty_name }}</td>
+            <td>{{ faculty_member.dept_name }}</td>
+            <td>{{ faculty_member.subject_count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

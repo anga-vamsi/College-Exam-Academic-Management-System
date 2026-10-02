@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Course Subject Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Course-wise Subject Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Department</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Credits</th>
+                <th>Semester</th>
+                <th>Faculty</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for subject in subjects %}
+
+            <tr>
+                <td>{{ subject.course_name }}</td>
+                <td>{{ subject.dept_name }}</td>
+                <td>{{ subject.subject_code or '-' }}</td>
+                <td>{{ subject.subject_name or '-' }}</td>
+                <td>{{ subject.credits or '-' }}</td>
+                <td>{{ subject.semester or '-' }}</td>
+                <td>{{ subject.faculty_name or '-' }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="7">
+                    No course subject data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

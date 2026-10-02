@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Course Performance
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Course-wise Performance Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Total Students</th>
+                <th>Average Percentage</th>
+                <th>Highest Percentage</th>
+                <th>Lowest Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for row in performance %}
+
+            <tr>
+                <td>{{ row.course_name }}</td>
+                <td>{{ row.total_students }}</td>
+                <td>{{ row.average_percentage }}%</td>
+                <td>{{ row.highest_percentage }}%</td>
+                <td>{{ row.lowest_percentage }}%</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

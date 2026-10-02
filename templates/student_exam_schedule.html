@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Student Exam Schedule</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Roll No</th>
+            <th>Student Name</th>
+            <th>Course</th>
+            <th>Exam</th>
+            <th>Subject Code</th>
+            <th>Subject Name</th>
+            <th>Exam Date</th>
+            <th>Exam Time</th>
+            <th>Room No</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for schedule in schedules %}
+        <tr>
+            <td>{{ schedule.roll_no }}</td>
+            <td>{{ schedule.student_name }}</td>
+            <td>{{ schedule.course_name }}</td>
+            <td>{{ schedule.exam_name }}</td>
+            <td>{{ schedule.subject_code }}</td>
+            <td>{{ schedule.subject_name }}</td>
+            <td>{{ schedule.exam_date }}</td>
+            <td>{{ schedule.exam_time }}</td>
+            <td>{{ schedule.room_no }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Marks Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Student Marks Report</h2>
+
+    <p>
+        Marks obtained by students in each examination subject.
+    </p>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Student Name</th>
+                <th>Exam</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Marks Obtained</th>
+                <th>Maximum Marks</th>
+                <th>Percentage</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for mark in marks %}
+
+            <tr>
+
+                <td>
+                    {{ mark.roll_no }}
+                </td>
+
+                <td>
+                    {{ mark.student_name }}
+                </td>
+
+                <td>
+                    {{ mark.exam_name }}
+                </td>
+
+                <td>
+                    {{ mark.subject_code }}
+                </td>
+
+                <td>
+                    {{ mark.subject_name }}
+                </td>
+
+                <td>
+                    {{ mark.marks_obtained }}
+                </td>
+
+                <td>
+                    {{ mark.max_marks }}
+                </td>
+
+                <td>
+                    {{ mark.percentage }}%
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

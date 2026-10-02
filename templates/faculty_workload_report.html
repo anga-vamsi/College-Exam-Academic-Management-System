@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Faculty Workload Report
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Faculty Workload Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Faculty ID</th>
+                <th>Faculty Name</th>
+                <th>Department</th>
+                <th>Number of Subjects</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for member in faculty %}
+
+            <tr>
+                <td>{{ member.faculty_id }}</td>
+                <td>{{ member.faculty_name }}</td>
+                <td>{{ member.dept_name }}</td>
+                <td>{{ member.subject_count }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="4">
+                    No faculty workload data found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}

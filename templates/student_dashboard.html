@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+
+<h2>Student Dashboard</h2>
+
+{% if student %}
+
+<div class="form-container">
+
+    <h3>Student Information</h3>
+
+    <div class="student-info">
+
+        <p>
+            <strong>Roll Number:</strong>
+            {{ student.roll_no }}
+        </p>
+
+        <p>
+            <strong>Name:</strong>
+            {{ student.name }}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            {{ student.email }}
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            {{ student.phone }}
+        </p>
+
+        <p>
+            <strong>Course:</strong>
+            {{ student.course_name }}
+        </p>
+
+        <p>
+            <strong>Admission Year:</strong>
+            {{ student.admission_year }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="dashboard-cards">
+
+    <div class="card">
+
+        <h3>Overall Attendance</h3>
+
+        <div class="count">
+            {{ attendance_percentage }}%
+        </div>
+
+        <p>Average attendance</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Exams</h3>
+
+        <div class="count">
+            {{ result_count }}
+        </div>
+
+        <p>Examination results</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Latest Percentage</h3>
+
+        <div class="count">
+            {{ latest_percentage }}%
+        </div>
+
+        <p>Latest examination percentage</p>
+
+    </div>
+
+</div>
+
+
+<div class="form-container">
+
+    <h3>Student Reports</h3>
+
+    <a href="{{ url_for('student_performance', student_id=student.student_id) }}">
+        View Performance Report
+    </a>
+
+    <br><br>
+
+    <a href="{{ url_for('student_attendance', student_id=student.student_id) }}">
+        View Attendance Report
+    </a>
+
+    <br><br>
+
+    {% if session.get("role") in ["ADMIN", "PRINCIPAL"] %}
+
+        <a href="{{ url_for('students') }}">
+            ← Back to Students
+        </a>
+
+    {% elif session.get("role") == "STUDENT" %}
+
+        <a href="{{ url_for('home') }}">
+            ← Back to Dashboard
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% else %}
+
+<p>Student not found.</p>
+
+{% endif %}
+
+
+</div>
+
+{% endblock %}

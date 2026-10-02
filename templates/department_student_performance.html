@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Department-wise Student Performance</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Department ID</th>
+            <th>Department Name</th>
+            <th>Students with Results</th>
+            <th>Average Percentage</th>
+            <th>Highest Percentage</th>
+            <th>Lowest Percentage</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.dept_id }}</td>
+            <td>{{ department.dept_name }}</td>
+            <td>{{ department.students_count }}</td>
+            <td>
+                {% if department.average_percentage is not none %}
+                    {{ department.average_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if department.highest_percentage is not none %}
+                    {{ department.highest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>
+                {% if department.lowest_percentage is not none %}
+                    {{ department.lowest_percentage }}%
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

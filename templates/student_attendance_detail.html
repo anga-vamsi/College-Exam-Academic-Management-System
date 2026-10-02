@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Attendance Detail
+{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <h2>Student Attendance Detail Report</h2>
+
+    <table class="data-table">
+
+        <thead>
+            <tr>
+                <th>Roll Number</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Subject Code</th>
+                <th>Subject Name</th>
+                <th>Total Classes</th>
+                <th>Attended</th>
+                <th>Absent</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for record in attendance %}
+
+            <tr>
+                <td>{{ record.roll_no }}</td>
+                <td>{{ record.student_name }}</td>
+                <td>{{ record.course_name }}</td>
+                <td>{{ record.subject_code }}</td>
+                <td>{{ record.subject_name }}</td>
+                <td>{{ record.total_classes }}</td>
+                <td>{{ record.attended_classes }}</td>
+                <td>{{ record.absent_classes }}</td>
+                <td>{{ record.attendance_percentage }}%</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="9">
+                    No attendance records found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('home') }}">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+{% endblock %}
