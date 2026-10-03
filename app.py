@@ -1405,7 +1405,7 @@ def exams():
         try:
 
             cursor.execute("""
-                INSERT INTO Exam_Schedule
+                INSERT INTO exam_schedule
                 (
                     exam_id,
                     subject_id,
@@ -1448,7 +1448,7 @@ def exams():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
+        FROM exam_schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject s
@@ -1538,7 +1538,7 @@ def edit_exam(schedule_id):
         try:
 
             cursor.execute("""
-                UPDATE Exam_Schedule
+                UPDATE exam_schedule
                 SET
                     exam_id = %s,
                     subject_id = %s,
@@ -1572,7 +1572,7 @@ def edit_exam(schedule_id):
 
     cursor.execute("""
         SELECT *
-        FROM Exam_Schedule
+        FROM exam_schedule
         WHERE schedule_id = %s
     """, (schedule_id,))
 
@@ -1626,7 +1626,7 @@ def delete_exam(schedule_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Exam_Schedule
+            DELETE FROM exam_schedule
             WHERE schedule_id = %s
         """, (schedule_id,))
 
@@ -2439,7 +2439,7 @@ def exam_schedule_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
+        FROM exam_schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
@@ -2485,7 +2485,7 @@ def student_marks_report():
         FROM marks m
         JOIN student st
             ON m.student_id = st.student_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -2713,7 +2713,7 @@ def subject_performance_report():
         FROM subject sub
         JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Exam_Schedule es
+        LEFT JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
         LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
@@ -3216,7 +3216,7 @@ def student_marks_detail():
             ON m.student_id = st.student_id
         JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4016,7 +4016,7 @@ def exam_schedule_course_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
+        FROM exam_schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
@@ -4067,7 +4067,7 @@ def student_exam_schedule():
             ON st.course_id = c.course_id
         JOIN subject sub
             ON c.course_id = sub.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4130,7 +4130,7 @@ def student_subject_performance():
             ON m.student_id = st.student_id
         JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4185,7 +4185,7 @@ def subject_marks_summary():
         FROM subject sub
         JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Exam_Schedule es
+        LEFT JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
         LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
@@ -4549,7 +4549,7 @@ def exam_subject_summary():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
+        FROM exam_schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
