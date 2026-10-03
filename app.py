@@ -17,15 +17,12 @@ app.config["SECRET_KEY"] = Config.SECRET_KEY
 # =========================================================
 # Secure Session Cookie Configuration
 # =========================================================
-# HttpOnly prevents client-side JavaScript from reading the session cookie.
-# SameSite=Lax provides protection against common cross-site requests.
-# Secure is enabled in production by setting SESSION_COOKIE_SECURE=1.
-
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.getenv("SESSION_COOKIE_SECURE", "0") == "1"
 )
+
 # =========================================================
 # CSRF Protection
 # =========================================================
@@ -47,8 +44,6 @@ def inject_csrf_token():
 @app.before_request
 def validate_csrf_token():
 
-    # CSRF protection is skipped only for automated tests.
-    # All real application POST requests are still validated.
     if request.method != "POST" or app.config.get("TESTING"):
         return
 
@@ -206,7 +201,6 @@ def home():
 
     role = session.get("role")
 
-    # Student → Student Dashboard
     if role == "STUDENT":
         student_id = session.get("student_id")
 
@@ -218,29 +212,28 @@ def home():
         flash("No student profile is linked to this account.", "error")
         return redirect(url_for("login"))
 
-    # Admin / Principal / Faculty → Academic Dashboard
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Student")
+    cursor.execute("SELECT COUNT(*) AS total FROM student")
     students = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Faculty")
+    cursor.execute("SELECT COUNT(*) AS total FROM faculty")
     faculty = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Course")
+    cursor.execute("SELECT COUNT(*) AS total FROM course")
     courses = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Subject")
+    cursor.execute("SELECT COUNT(*) AS total FROM subject")
     subjects = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Exam")
+    cursor.execute("SELECT COUNT(*) AS total FROM exam")
     exams = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Result")
+    cursor.execute("SELECT COUNT(*) AS total FROM result")
     results = cursor.fetchone()["total"]
 
-    cursor.execute("SELECT COUNT(*) AS total FROM Attendance")
+    cursor.execute("SELECT COUNT(*) AS total FROM attendance")
     attendance = cursor.fetchone()["total"]
 
     cursor.close()
@@ -319,7 +312,7 @@ def students():
             return redirect(url_for("students"))
 
         query = """
-            INSERT INTO Student
+            INSERT INTO student
             (
                 roll_no,
                 name,
@@ -366,7 +359,7 @@ def students():
         SELECT
             course_id,
             course_name
-        FROM Course
+        FROM course
         ORDER BY course_name
     """)
 
@@ -383,8 +376,8 @@ def students():
             s.phone,
             c.course_name,
             s.admission_year
-        FROM Student s
-        JOIN Course c
+        FROM student s
+        JOIN course c
             ON s.course_id = c.course_id
         WHERE s.name LIKE %s
            OR s.roll_no LIKE %s
@@ -423,7 +416,7 @@ def delete_student(student_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Student
+            DELETE FROM student
             WHERE student_id = %s
         """, (student_id,))
 
@@ -487,7 +480,7 @@ def edit_student(student_id):
             return redirect(url_for("edit_student", student_id=student_id))
 
         query = """
-            UPDATE Student
+            UPDATE student
             SET
                 roll_no = %s,
                 name = %s,
@@ -541,7 +534,7 @@ def edit_student(student_id):
             phone,
             course_id,
             admission_year
-        FROM Student
+        FROM student
         WHERE student_id = %s
     """, (student_id,))
 
@@ -551,7 +544,7 @@ def edit_student(student_id):
         SELECT
             course_id,
             course_name
-        FROM Course
+        FROM course
         ORDER BY course_name
     """)
 
@@ -597,7 +590,7 @@ def faculty():
             return redirect(url_for("faculty"))
 
         query = """
-            INSERT INTO Faculty
+            INSERT INTO faculty
             (
                 name,
                 email,
@@ -636,7 +629,7 @@ def faculty():
         SELECT
             dept_id,
             dept_name
-        FROM Department
+        FROM department
         ORDER BY dept_name
     """)
 
@@ -649,8 +642,8 @@ def faculty():
             f.email,
             f.phone,
             d.dept_name
-        FROM Faculty f
-        JOIN Department d
+        FROM faculty f
+        JOIN department d
             ON f.dept_id = d.dept_id
         ORDER BY f.name
     """)
@@ -697,7 +690,7 @@ def edit_faculty(faculty_id):
             return redirect(url_for("edit_faculty", faculty_id=faculty_id))
 
         query = """
-            UPDATE Faculty
+            UPDATE faculty
             SET
                 name = %s,
                 email = %s,
@@ -739,7 +732,7 @@ def edit_faculty(faculty_id):
             email,
             phone,
             dept_id
-        FROM Faculty
+        FROM faculty
         WHERE faculty_id = %s
     """, (faculty_id,))
 
@@ -749,7 +742,7 @@ def edit_faculty(faculty_id):
         SELECT
             dept_id,
             dept_name
-        FROM Department
+        FROM department
         ORDER BY dept_name
     """)
 
@@ -779,7 +772,7 @@ def delete_faculty(faculty_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Faculty
+            DELETE FROM faculty
             WHERE faculty_id = %s
         """, (faculty_id,))
 
@@ -837,7 +830,7 @@ def courses():
             return redirect(url_for("courses"))
 
         query = """
-            INSERT INTO Course
+            INSERT INTO course
             (
                 course_name,
                 duration,
@@ -874,7 +867,7 @@ def courses():
         SELECT
             dept_id,
             dept_name
-        FROM Department
+        FROM department
         ORDER BY dept_name
     """)
 
@@ -886,8 +879,8 @@ def courses():
             c.course_name,
             c.duration,
             d.dept_name
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
         ORDER BY c.course_name
     """)
@@ -941,7 +934,7 @@ def edit_course(course_id):
             return redirect(url_for("edit_course", course_id=course_id))
 
         query = """
-            UPDATE Course
+            UPDATE course
             SET
                 course_name = %s,
                 duration = %s,
@@ -980,7 +973,7 @@ def edit_course(course_id):
             course_name,
             duration,
             dept_id
-        FROM Course
+        FROM course
         WHERE course_id = %s
     """, (course_id,))
 
@@ -990,7 +983,7 @@ def edit_course(course_id):
         SELECT
             dept_id,
             dept_name
-        FROM Department
+        FROM department
         ORDER BY dept_name
     """)
 
@@ -1020,7 +1013,7 @@ def delete_course(course_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Course
+            DELETE FROM course
             WHERE course_id = %s
         """, (course_id,))
 
@@ -1095,7 +1088,7 @@ def subjects():
             return redirect(url_for("subjects"))
 
         query = """
-            INSERT INTO Subject
+            INSERT INTO subject
             (
                 subject_code,
                 subject_name,
@@ -1138,7 +1131,7 @@ def subjects():
         SELECT
             course_id,
             course_name
-        FROM Course
+        FROM course
         ORDER BY course_name
     """)
 
@@ -1148,7 +1141,7 @@ def subjects():
         SELECT
             faculty_id,
             name
-        FROM Faculty
+        FROM faculty
         ORDER BY name
     """)
 
@@ -1163,10 +1156,10 @@ def subjects():
             s.semester,
             c.course_name,
             f.name AS faculty_name
-        FROM Subject s
-        JOIN Course c
+        FROM subject s
+        JOIN course c
             ON s.course_id = c.course_id
-        LEFT JOIN Faculty f
+        LEFT JOIN faculty f
             ON s.faculty_id = f.faculty_id
         ORDER BY s.subject_code
     """)
@@ -1239,7 +1232,7 @@ def edit_subject(subject_id):
             return redirect(url_for("edit_subject", subject_id=subject_id))
 
         query = """
-            UPDATE Subject
+            UPDATE subject
             SET
                 subject_code = %s,
                 subject_name = %s,
@@ -1287,7 +1280,7 @@ def edit_subject(subject_id):
             semester,
             course_id,
             faculty_id
-        FROM Subject
+        FROM subject
         WHERE subject_id = %s
     """, (subject_id,))
 
@@ -1297,7 +1290,7 @@ def edit_subject(subject_id):
         SELECT
             course_id,
             course_name
-        FROM Course
+        FROM course
         ORDER BY course_name
     """)
 
@@ -1307,7 +1300,7 @@ def edit_subject(subject_id):
         SELECT
             faculty_id,
             name
-        FROM Faculty
+        FROM faculty
         ORDER BY name
     """)
 
@@ -1338,7 +1331,7 @@ def delete_subject(subject_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Subject
+            DELETE FROM subject
             WHERE subject_id = %s
         """, (subject_id,))
 
@@ -1405,7 +1398,7 @@ def exams():
         try:
 
             cursor.execute("""
-                INSERT INTO Exam_Schedule
+                INSERT INTO exam_schedule
                 (
                     exam_id,
                     subject_id,
@@ -1448,22 +1441,23 @@ def exams():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
-        JOIN Exam e
+        FROM exam_schedule es
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject s
+        JOIN subject s
             ON es.subject_id = s.subject_id
         ORDER BY es.exam_date, es.exam_time
     """)
 
     exams_data = cursor.fetchall()
+
     cursor.execute("""
         SELECT
             exam_id,
             exam_name,
             semester,
             academic_year
-        FROM Exam
+        FROM exam
         ORDER BY exam_id
     """)
 
@@ -1474,7 +1468,7 @@ def exams():
             subject_id,
             subject_code,
             subject_name
-        FROM Subject
+        FROM subject
         ORDER BY subject_code
     """)
 
@@ -1538,7 +1532,7 @@ def edit_exam(schedule_id):
         try:
 
             cursor.execute("""
-                UPDATE Exam_Schedule
+                UPDATE exam_schedule
                 SET
                     exam_id = %s,
                     subject_id = %s,
@@ -1572,7 +1566,7 @@ def edit_exam(schedule_id):
 
     cursor.execute("""
         SELECT *
-        FROM Exam_Schedule
+        FROM exam_schedule
         WHERE schedule_id = %s
     """, (schedule_id,))
 
@@ -1584,7 +1578,7 @@ def edit_exam(schedule_id):
             exam_name,
             semester,
             academic_year
-        FROM Exam
+        FROM exam
         ORDER BY exam_id
     """)
 
@@ -1595,7 +1589,7 @@ def edit_exam(schedule_id):
             subject_id,
             subject_code,
             subject_name
-        FROM Subject
+        FROM subject
         ORDER BY subject_code
     """)
 
@@ -1626,7 +1620,7 @@ def delete_exam(schedule_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Exam_Schedule
+            DELETE FROM exam_schedule
             WHERE schedule_id = %s
         """, (schedule_id,))
 
@@ -1668,10 +1662,10 @@ def results():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         ORDER BY st.roll_no, e.exam_id
     """)
@@ -1738,7 +1732,7 @@ def edit_result(result_id):
         try:
 
             cursor.execute("""
-                UPDATE Result
+                UPDATE result
                 SET
                     total_marks = %s,
                     percentage = %s,
@@ -1778,10 +1772,10 @@ def edit_result(result_id):
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         WHERE r.result_id = %s
     """, (result_id,))
@@ -1811,7 +1805,7 @@ def delete_result(result_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Result
+            DELETE FROM result
             WHERE result_id = %s
         """, (result_id,))
 
@@ -1856,10 +1850,10 @@ def attendance():
                 (a.attended_classes / a.total_classes) * 100,
                 2
             ) AS attendance_percentage
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Subject sub
+        JOIN subject sub
             ON a.subject_id = sub.subject_id
         ORDER BY st.roll_no, sub.subject_code
     """)
@@ -1914,7 +1908,7 @@ def edit_attendance(attendance_id):
         try:
 
             cursor.execute("""
-                UPDATE Attendance
+                UPDATE attendance
                 SET
                     total_classes = %s,
                     attended_classes = %s
@@ -1949,10 +1943,10 @@ def edit_attendance(attendance_id):
             sub.subject_name,
             a.total_classes,
             a.attended_classes
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Subject sub
+        JOIN subject sub
             ON a.subject_id = sub.subject_id
         WHERE a.attendance_id = %s
     """, (attendance_id,))
@@ -1982,7 +1976,7 @@ def delete_attendance(attendance_id):
     try:
 
         cursor.execute("""
-            DELETE FROM Attendance
+            DELETE FROM attendance
             WHERE attendance_id = %s
         """, (attendance_id,))
 
@@ -2013,8 +2007,8 @@ def student_performance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-       if role != "STUDENT" or session.get("student_id") != student_id:
-         abort(403)
+        if role != "STUDENT" or session.get("student_id") != student_id:
+            abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -2049,8 +2043,8 @@ def student_attendance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-       if role != "STUDENT" or session.get("student_id") != student_id:
-         abort(403)
+        if role != "STUDENT" or session.get("student_id") != student_id:
+            abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -2083,6 +2077,7 @@ def student_attendance(student_id):
 def student_dashboard(student_id):
 
     role = session.get("role")
+
     if role not in ("ADMIN", "PRINCIPAL"):
         if role != "STUDENT" or session.get("student_id") != student_id:
             abort(403)
@@ -2099,8 +2094,8 @@ def student_dashboard(student_id):
             s.phone,
             s.admission_year,
             c.course_name
-        FROM Student s
-        JOIN Course c
+        FROM student s
+        JOIN course c
             ON s.course_id = c.course_id
         WHERE s.student_id = %s
     """, (student_id,))
@@ -2127,7 +2122,7 @@ def student_dashboard(student_id):
                 ),
                 0
             ) AS attendance_percentage
-        FROM Attendance
+        FROM attendance
         WHERE student_id = %s
     """, (student_id,))
 
@@ -2137,7 +2132,7 @@ def student_dashboard(student_id):
 
     cursor.execute("""
         SELECT COUNT(*) AS result_count
-        FROM Result
+        FROM result
         WHERE student_id = %s
     """, (student_id,))
 
@@ -2147,7 +2142,7 @@ def student_dashboard(student_id):
 
     cursor.execute("""
         SELECT percentage
-        FROM Result
+        FROM result
         WHERE student_id = %s
         ORDER BY exam_id DESC
         LIMIT 1
@@ -2198,10 +2193,10 @@ def attendance_summary():
                 ) * 100,
                 2
             ) AS attendance_percentage
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
         GROUP BY
             st.student_id,
@@ -2240,10 +2235,10 @@ def course_performance():
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage,
             MIN(r.percentage) AS lowest_percentage
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
         GROUP BY
             c.course_id,
@@ -2279,10 +2274,10 @@ def course_student_report():
             c.course_name,
             d.dept_name,
             COUNT(s.student_id) AS student_count
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
-        LEFT JOIN Student s
+        LEFT JOIN student s
             ON c.course_id = s.course_id
         GROUP BY
             c.course_id,
@@ -2318,10 +2313,10 @@ def department_student_report():
             d.dept_id,
             d.dept_name,
             COUNT(s.student_id) AS student_count
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Student s
+        LEFT JOIN student s
             ON c.course_id = s.course_id
         GROUP BY
             d.dept_id,
@@ -2356,8 +2351,8 @@ def department_faculty_report():
             d.dept_id,
             d.dept_name,
             COUNT(f.faculty_id) AS faculty_count
-        FROM Department d
-        LEFT JOIN Faculty f
+        FROM department d
+        LEFT JOIN faculty f
             ON d.dept_id = f.dept_id
         GROUP BY
             d.dept_id,
@@ -2396,10 +2391,10 @@ def subject_faculty_report():
             sub.semester,
             c.course_name,
             COALESCE(f.name, 'Not Assigned') AS faculty_name
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Faculty f
+        LEFT JOIN faculty f
             ON sub.faculty_id = f.faculty_id
         ORDER BY sub.subject_code
     """)
@@ -2437,10 +2432,10 @@ def exam_schedule_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
-        JOIN Exam e
+        FROM exam_schedule es
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
         ORDER BY es.exam_date, es.exam_time
     """)
@@ -2480,14 +2475,14 @@ def student_marks_report():
                 (m.marks_obtained / m.max_marks) * 100,
                 2
             ) AS percentage
-        FROM Marks m
-        JOIN Student st
+        FROM marks m
+        JOIN student st
             ON m.student_id = st.student_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
-        JOIN Exam e
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
         ORDER BY
             st.roll_no,
@@ -2527,12 +2522,12 @@ def result_summary_report():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         ORDER BY
             e.exam_id,
@@ -2569,10 +2564,10 @@ def course_performance_report():
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage,
             MIN(r.percentage) AS lowest_percentage
-        FROM Course c
-        LEFT JOIN Student st
+        FROM course c
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             c.course_id,
@@ -2614,10 +2609,10 @@ def student_attendance_report():
                 (a.attended_classes / a.total_classes) * 100,
                 2
             ) AS attendance_percentage
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Subject sub
+        JOIN subject sub
             ON a.subject_id = sub.subject_id
         ORDER BY
             st.roll_no,
@@ -2654,17 +2649,18 @@ def department_performance_report():
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage,
             MIN(r.percentage) AS lowest_percentage
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             d.dept_id,
             d.dept_name
-        ORDER BY d.dept_name
+        ORDER BY
+            d.dept_name
     """)
 
     departments = cursor.fetchall()
@@ -2708,12 +2704,12 @@ def subject_performance_report():
                 MIN((m.marks_obtained / m.max_marks) * 100),
                 2
             ) AS lowest_percentage
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Exam_Schedule es
+        LEFT JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
-        LEFT JOIN Marks m
+        LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
         GROUP BY
             sub.subject_id,
@@ -2751,10 +2747,10 @@ def faculty_workload_report():
             f.name AS faculty_name,
             d.dept_name,
             COUNT(sub.subject_id) AS subject_count
-        FROM Faculty f
-        JOIN Department d
+        FROM faculty f
+        JOIN department d
             ON f.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON f.faculty_id = sub.faculty_id
         GROUP BY
             f.faculty_id,
@@ -2796,12 +2792,12 @@ def course_subject_report():
             sub.credits,
             sub.semester,
             COALESCE(f.name, 'Not Assigned') AS faculty_name
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON c.course_id = sub.course_id
-        LEFT JOIN Faculty f
+        LEFT JOIN faculty f
             ON sub.faculty_id = f.faculty_id
         ORDER BY
             c.course_name,
@@ -2846,12 +2842,12 @@ def student_result_analysis():
                 WHEN r.percentage >= 50 THEN 'Average'
                 ELSE 'Needs Improvement'
             END AS performance_category
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         ORDER BY
             r.percentage DESC
@@ -2899,12 +2895,12 @@ def student_rank_report():
                 e.exam_name,
                 r.percentage,
                 r.grade
-            FROM Result r
-            JOIN Student st
+            FROM result r
+            JOIN student st
                 ON r.student_id = st.student_id
-            JOIN Course c
+            JOIN course c
                 ON st.course_id = c.course_id
-            JOIN Exam e
+            JOIN exam e
                 ON r.exam_id = e.exam_id
         ) AS result_data
         ORDER BY
@@ -2956,8 +2952,8 @@ def exam_result_summary():
                     ELSE 0
                 END
             ) AS failed_students
-        FROM Exam e
-        LEFT JOIN Result r
+        FROM exam e
+        LEFT JOIN result r
             ON e.exam_id = r.exam_id
         GROUP BY
             e.exam_id,
@@ -3001,10 +2997,10 @@ def attendance_defaulters():
                 NULLIF(SUM(a.total_classes), 0) * 100,
                 2
             ) AS attendance_percentage
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
         GROUP BY
             st.student_id,
@@ -3051,10 +3047,10 @@ def course_attendance_summary():
                 NULLIF(SUM(a.total_classes), 0) * 100,
                 2
             ) AS attendance_percentage
-        FROM Course c
-        LEFT JOIN Student st
+        FROM course c
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON st.student_id = a.student_id
         GROUP BY
             c.course_id,
@@ -3098,10 +3094,10 @@ def subject_attendance_report():
                 NULLIF(COALESCE(SUM(a.total_classes), 0), 0) * 100,
                 2
             ) AS attendance_percentage
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON sub.subject_id = a.subject_id
         GROUP BY
             sub.subject_id,
@@ -3148,12 +3144,12 @@ def student_attendance_detail():
                 (a.attended_classes / a.total_classes) * 100,
                 2
             ) AS attendance_percentage
-        FROM Attendance a
-        JOIN Student st
+        FROM attendance a
+        JOIN student st
             ON a.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Subject sub
+        JOIN subject sub
             ON a.subject_id = sub.subject_id
         ORDER BY
             st.roll_no,
@@ -3209,16 +3205,16 @@ def student_marks_detail():
                     THEN 'D'
                 ELSE 'F'
             END AS grade
-        FROM Marks m
-        JOIN Student st
+        FROM marks m
+        JOIN student st
             ON m.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
-        JOIN Exam e
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
         ORDER BY
             st.roll_no,
@@ -3256,10 +3252,10 @@ def top_students_report():
             COUNT(r.result_id) AS exams_count,
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage
-        FROM Student st
-        JOIN Course c
+        FROM student st
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Result r
+        JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             st.student_id,
@@ -3302,12 +3298,12 @@ def failed_students_report():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         WHERE r.result_status = 'FAIL'
         ORDER BY
@@ -3346,12 +3342,12 @@ def passed_students_report():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         WHERE r.result_status = 'PASS'
         ORDER BY
@@ -3400,12 +3396,12 @@ def department_result_summary():
                     ELSE 0
                 END
             ) AS failed_students
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             d.dept_id,
@@ -3444,10 +3440,10 @@ def course_result_comparison():
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage,
             MIN(r.percentage) AS lowest_percentage
-        FROM Course c
-        LEFT JOIN Student st
+        FROM course c
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             c.course_id,
@@ -3504,10 +3500,10 @@ def course_pass_fail_summary():
                 ) / NULLIF(COUNT(r.result_id), 0) * 100,
                 2
             ) AS pass_percentage
-        FROM Course c
-        LEFT JOIN Student st
+        FROM course c
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             c.course_id,
@@ -3565,10 +3561,10 @@ def student_pass_fail_summary():
                 ) / NULLIF(COUNT(r.result_id), 0) * 100,
                 2
             ) AS pass_percentage
-        FROM Student st
-        JOIN Course c
+        FROM student st
+        JOIN course c
             ON st.course_id = c.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             st.student_id,
@@ -3612,12 +3608,12 @@ def student_result_history():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         ORDER BY
             st.roll_no,
@@ -3668,8 +3664,8 @@ def exam_student_performance():
                     ELSE 0
                 END
             ) AS failed_students
-        FROM Exam e
-        LEFT JOIN Result r
+        FROM exam e
+        LEFT JOIN result r
             ON e.exam_id = r.exam_id
         GROUP BY
             e.exam_id,
@@ -3712,12 +3708,12 @@ def faculty_subject_allocation():
             c.course_name,
             sub.credits,
             sub.semester
-        FROM Faculty f
-        JOIN Department d
+        FROM faculty f
+        JOIN department d
             ON f.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON f.faculty_id = sub.faculty_id
-        LEFT JOIN Course c
+        LEFT JOIN course c
             ON sub.course_id = c.course_id
         ORDER BY
             f.name,
@@ -3754,10 +3750,10 @@ def department_subject_summary():
             COUNT(DISTINCT sub.subject_id) AS total_subjects,
             COUNT(DISTINCT c.course_id) AS total_courses,
             COALESCE(SUM(sub.credits), 0) AS total_credits
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON c.course_id = sub.course_id
         GROUP BY
             d.dept_id,
@@ -3794,10 +3790,10 @@ def course_student_count():
             c.course_name,
             d.dept_name,
             COUNT(s.student_id) AS student_count
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
-        LEFT JOIN Student s
+        LEFT JOIN student s
             ON c.course_id = s.course_id
         GROUP BY
             c.course_id,
@@ -3837,10 +3833,10 @@ def semester_subject_report():
             sub.subject_name,
             sub.credits,
             COALESCE(f.name, 'Not Assigned') AS faculty_name
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Faculty f
+        LEFT JOIN faculty f
             ON sub.faculty_id = f.faculty_id
         ORDER BY
             sub.semester,
@@ -3889,10 +3885,10 @@ def student_attendance_summary():
                 ),
                 2
             ) AS attendance_percentage
-        FROM Student st
-        JOIN Course c
+        FROM student st
+        JOIN course c
             ON st.course_id = c.course_id
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON st.student_id = a.student_id
         GROUP BY
             st.student_id,
@@ -3931,10 +3927,10 @@ def faculty_subject_count():
             f.name AS faculty_name,
             d.dept_name,
             COUNT(sub.subject_id) AS subject_count
-        FROM Faculty f
-        JOIN Department d
+        FROM faculty f
+        JOIN department d
             ON f.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON f.faculty_id = sub.faculty_id
         GROUP BY
             f.faculty_id,
@@ -3971,8 +3967,8 @@ def department_faculty_count():
             d.dept_id,
             d.dept_name,
             COUNT(f.faculty_id) AS faculty_count
-        FROM Department d
-        LEFT JOIN Faculty f
+        FROM department d
+        LEFT JOIN faculty f
             ON d.dept_id = f.dept_id
         GROUP BY
             d.dept_id,
@@ -4014,12 +4010,12 @@ def exam_schedule_course_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
-        JOIN Exam e
+        FROM exam_schedule es
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
-        JOIN Course c
+        JOIN course c
             ON sub.course_id = c.course_id
         ORDER BY
             e.exam_id,
@@ -4060,14 +4056,14 @@ def student_exam_schedule():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Student st
-        JOIN Course c
+        FROM student st
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Subject sub
+        JOIN subject sub
             ON c.course_id = sub.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
-        JOIN Exam e
+        JOIN exam e
             ON es.exam_id = e.exam_id
         ORDER BY
             st.roll_no,
@@ -4123,16 +4119,16 @@ def student_subject_performance():
                     THEN 'D'
                 ELSE 'F'
             END AS grade
-        FROM Marks m
-        JOIN Student st
+        FROM marks m
+        JOIN student st
             ON m.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam_Schedule es
+        JOIN exam_schedule es
             ON m.schedule_id = es.schedule_id
-        JOIN Exam e
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
         ORDER BY
             st.roll_no,
@@ -4180,12 +4176,12 @@ def subject_marks_summary():
                 MIN((m.marks_obtained / m.max_marks) * 100),
                 2
             ) AS lowest_percentage
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Exam_Schedule es
+        LEFT JOIN exam_schedule es
             ON sub.subject_id = es.subject_id
-        LEFT JOIN Marks m
+        LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
         GROUP BY
             sub.subject_id,
@@ -4237,12 +4233,12 @@ def department_attendance_summary():
                 ),
                 2
             ) AS attendance_percentage
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON st.student_id = a.student_id
         GROUP BY
             d.dept_id,
@@ -4293,18 +4289,18 @@ def department_academic_overview():
                 2
             ) AS attendance_percentage
 
-        FROM Department d
+        FROM department d
 
-        LEFT JOIN Course c
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
 
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
 
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
 
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON st.student_id = a.student_id
 
         GROUP BY
@@ -4345,12 +4341,12 @@ def department_student_performance():
             ROUND(AVG(r.percentage), 2) AS average_percentage,
             MAX(r.percentage) AS highest_percentage,
             MIN(r.percentage) AS lowest_percentage
-        FROM Department d
-        LEFT JOIN Course c
+        FROM department d
+        LEFT JOIN course c
             ON d.dept_id = c.dept_id
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
         GROUP BY
             d.dept_id,
@@ -4401,15 +4397,15 @@ def student_academic_overview():
                 2
             ) AS attendance_percentage
 
-        FROM Student st
+        FROM student st
 
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
 
-        LEFT JOIN Result r
+        LEFT JOIN result r
             ON st.student_id = r.student_id
 
-        LEFT JOIN Attendance a
+        LEFT JOIN attendance a
             ON st.student_id = a.student_id
 
         GROUP BY
@@ -4455,12 +4451,12 @@ def student_result_trend():
             r.percentage,
             r.grade,
             r.result_status
-        FROM Result r
-        JOIN Student st
+        FROM result r
+        JOIN student st
             ON r.student_id = st.student_id
-        JOIN Course c
+        JOIN course c
             ON st.course_id = c.course_id
-        JOIN Exam e
+        JOIN exam e
             ON r.exam_id = e.exam_id
         ORDER BY
             st.roll_no,
@@ -4497,12 +4493,12 @@ def subject_student_count():
             c.course_name,
             COALESCE(f.name, 'Not Assigned') AS faculty_name,
             COUNT(DISTINCT st.student_id) AS student_count
-        FROM Subject sub
-        JOIN Course c
+        FROM subject sub
+        JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN Faculty f
+        LEFT JOIN faculty f
             ON sub.faculty_id = f.faculty_id
-        LEFT JOIN Student st
+        LEFT JOIN student st
             ON c.course_id = st.course_id
         GROUP BY
             sub.subject_id,
@@ -4547,12 +4543,12 @@ def exam_subject_summary():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM Exam_Schedule es
-        JOIN Exam e
+        FROM exam_schedule es
+        JOIN exam e
             ON es.exam_id = e.exam_id
-        JOIN Subject sub
+        JOIN subject sub
             ON es.subject_id = sub.subject_id
-        JOIN Course c
+        JOIN course c
             ON sub.course_id = c.course_id
         ORDER BY
             e.exam_id,
@@ -4590,12 +4586,12 @@ def faculty_course_allocation():
             c.course_name,
             sub.subject_code,
             sub.subject_name
-        FROM Faculty f
-        JOIN Department d
+        FROM faculty f
+        JOIN department d
             ON f.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON f.faculty_id = sub.faculty_id
-        LEFT JOIN Course c
+        LEFT JOIN course c
             ON sub.course_id = c.course_id
         ORDER BY
             f.name,
@@ -4631,10 +4627,10 @@ def course_faculty_count():
             c.course_name,
             d.dept_name,
             COUNT(DISTINCT sub.faculty_id) AS faculty_count
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON c.course_id = sub.course_id
         GROUP BY
             c.course_id,
@@ -4672,10 +4668,10 @@ def course_subject_count():
             c.course_name,
             d.dept_name,
             COUNT(sub.subject_id) AS subject_count
-        FROM Course c
-        JOIN Department d
+        FROM course c
+        JOIN department d
             ON c.dept_id = d.dept_id
-        LEFT JOIN Subject sub
+        LEFT JOIN subject sub
             ON c.course_id = sub.course_id
         GROUP BY
             c.course_id,
@@ -4714,8 +4710,8 @@ def exam_student_count():
             e.academic_year,
             e.semester,
             COUNT(DISTINCT r.student_id) AS student_count
-        FROM Exam e
-        LEFT JOIN Result r
+        FROM exam e
+        LEFT JOIN result r
             ON e.exam_id = r.exam_id
         GROUP BY
             e.exam_id,
@@ -4785,10 +4781,6 @@ def login():
                 user["password"],
                 password
             ):
-
-                # ---------------------------------------------
-                # Store user information in session
-                # ---------------------------------------------
 
                 session["user_id"] = user.get("id")
                 session["username"] = user["username"]
@@ -4862,21 +4854,7 @@ def register():
             ""
         )
 
-        # -------------------------------------------------
-        # Public registration role
-        # -------------------------------------------------
-        # Anyone registering through this page becomes
-        # a STUDENT.
-        #
-        # FACULTY, PRINCIPAL and ADMIN accounts should
-        # not be created through public registration.
-        # -------------------------------------------------
-
         role = "STUDENT"
-
-        # -------------------------------------------------
-        # Basic validation
-        # -------------------------------------------------
 
         if not username or not email or not password:
 
@@ -4900,10 +4878,6 @@ def register():
                 "register.html"
             )
 
-        # -------------------------------------------------
-        # Connect to database
-        # -------------------------------------------------
-
         connection = None
         cursor = None
 
@@ -4912,10 +4886,6 @@ def register():
             connection = get_db_connection()
 
             cursor = connection.cursor(dictionary=True)
-
-            # -------------------------------------------------
-            # Check whether username already exists
-            # -------------------------------------------------
 
             cursor.execute(
                 """
@@ -4939,10 +4909,6 @@ def register():
                     "register.html"
                 )
 
-            # -------------------------------------------------
-            # Check whether email already exists
-            # -------------------------------------------------
-
             cursor.execute(
                 """
                 SELECT email
@@ -4965,17 +4931,9 @@ def register():
                     "register.html"
                 )
 
-            # -------------------------------------------------
-            # Hash password
-            # -------------------------------------------------
-
             hashed_password = generate_password_hash(
                 password
             )
-
-            # -------------------------------------------------
-            # Insert user with role
-            # -------------------------------------------------
 
             cursor.execute(
                 """
@@ -5044,6 +5002,7 @@ def register():
         "register.html"
     )
 
+
 # =========================================================
 # Logout
 # =========================================================
@@ -5088,6 +5047,7 @@ def profile():
         email=session.get("email")
     )
 
+
 # =========================================================
 # 404 Page Not Found Handler
 # =========================================================
@@ -5095,6 +5055,7 @@ def profile():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
+
 
 # =========================================================
 # 403 Forbidden Handler
@@ -5104,6 +5065,7 @@ def page_not_found(error):
 def forbidden(error):
     return render_template("403.html"), 403
 
+
 # =========================================================
 # 500 Internal Server Error Handler
 # =========================================================
@@ -5111,6 +5073,7 @@ def forbidden(error):
 @app.errorhandler(500)
 def internal_server_error(error):
     return render_template("500.html"), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
