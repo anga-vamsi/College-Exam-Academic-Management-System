@@ -2013,30 +2013,31 @@ def student_performance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-       if role != "STUDENT" or session.get("student_id") != student_id:
-         abort(403)
+        if role != "STUDENT" or session.get("student_id") != student_id:
+            abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    cursor.callproc(
-        "GetStudentPerformance",
-        (student_id,)
-    )
-
     performance = []
 
-    for result in cursor.stored_results():
-        performance = result.fetchall()
+    try:
+        cursor.callproc(
+            "GetStudentPerformance",
+            (student_id,)
+        )
 
-    cursor.close()
-    connection.close()
+        for result in cursor.stored_results():
+            performance = result.fetchall()
+
+    finally:
+        cursor.close()
+        connection.close()
 
     return render_template(
         "student_performance.html",
         performance=performance
     )
-
 
 # =========================================================
 # Student Attendance
