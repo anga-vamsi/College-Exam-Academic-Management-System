@@ -2050,30 +2050,31 @@ def student_attendance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-       if role != "STUDENT" or session.get("student_id") != student_id:
-         abort(403)
+        if role != "STUDENT" or session.get("student_id") != student_id:
+            abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
-    cursor.callproc(
-        "GetStudentAttendance",
-        (student_id,)
-    )
-
     attendance_data = []
 
-    for result in cursor.stored_results():
-        attendance_data = result.fetchall()
+    try:
+        cursor.callproc(
+            "GetStudentAttendance",
+            (student_id,)
+        )
 
-    cursor.close()
-    connection.close()
+        for result in cursor.stored_results():
+            attendance_data = result.fetchall()
+
+    finally:
+        cursor.close()
+        connection.close()
 
     return render_template(
         "student_attendance.html",
         attendance=attendance_data
     )
-
 
 # =========================================================
 # Student Dashboard
