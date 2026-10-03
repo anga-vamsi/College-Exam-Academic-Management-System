@@ -1,38 +1,91 @@
+/* =========================================================
+   CARDS
+   ========================================================= */
+
 .card {
-    background-color: white;
+    background-color: #ffffff;
+
     padding: 20px;
+
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.10);
 }
 
+
+/* =========================================================
+   GENERAL BUTTON
+   ========================================================= */
+
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
     padding: 9px 16px;
+
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+
     cursor: pointer;
+
     text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 }
+
+
+/* =========================================================
+   GENERAL BUTTON COLORS
+   ========================================================= */
 
 .btn-success {
     background-color: #28a745;
-    color: white;
+    color: #ffffff;
 }
 
 .btn-danger {
     background-color: #dc3545;
-    color: white;
+    color: #ffffff;
 }
 
 .btn-primary {
     background-color: #007bff;
-    color: white;
+    color: #ffffff;
 }
+
+.btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.15);
+
+    opacity: 0.95;
+}
+
+.btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   BADGES
+   ========================================================= */
 
 .badge {
     display: inline-block;
+
     padding: 4px 8px;
+
     border-radius: 4px;
+
     font-size: 12px;
     font-weight: bold;
 }
@@ -45,4 +98,749 @@
 .badge-danger {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+
+/* =========================================================
+   ACTION BUTTON GROUP
+   ========================================================= */
+
+.action-buttons {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+}
+
+.action-form {
+    display: inline-flex;
+
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =========================================================
+   BASE ACTION BUTTON
+   ========================================================= */
+
+.btn-action {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 13px;
+
+    overflow: hidden;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background-color 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+/* Consistent interactions for existing template controls without button classes. */
+.form-container button,
+.data-table td button,
+.report-actions button,
+.report-actions a,
+.data-table td a,
+.form-container > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 35px;
+    box-sizing: border-box;
+    padding: 8px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #f1f5f9;
+    color: #334155;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.form-container button:hover,
+.data-table td button:hover,
+.report-actions button:hover,
+.report-actions a:hover,
+.data-table td a:hover,
+.form-container > a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.14);
+    background-color: #e2e8f0;
+    text-decoration: none;
+}
+
+.form-container button:hover { background-color: #e2e8f0; }
+
+.form-container button:active,
+.data-table td button:active,
+.report-actions button:active,
+.report-actions a:active,
+.data-table td a:active,
+.form-container > a:active { transform: translateY(0) scale(0.97); }
+
+.btn:focus-visible,
+.btn-action:focus-visible,
+.btn-edit:focus-visible,
+.btn-delete:focus-visible,
+.btn-attendance:focus-visible,
+.btn-performance:focus-visible,
+.btn-report:focus-visible,
+.form-container button:focus-visible,
+.data-table td a:focus-visible,
+.data-table td button:focus-visible,
+.report-actions a:focus-visible,
+.report-actions button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.4);
+    outline-offset: 3px;
+}
+
+.data-table td form[onsubmit] button { border-color: #fca5a5; background: #fee2e2; color: #b91c1c; }
+.data-table td form[onsubmit] button:hover { background: #fecaca; }
+.data-table td form { display: inline-flex; margin: 0 4px 4px 0; vertical-align: middle; }
+.data-table td a { margin: 0 4px 4px 0; white-space: nowrap; }
+.data-table td span { display: inline-block; padding: 7px 11px; border-radius: 7px; background: #f1f5f9; color: #475569; font-size: 13px; font-weight: 600; }
+.form-container form button[type="submit"] { background: #007bff; border-color: #007bff; color: #fff; }
+.form-container form button[type="submit"]:hover { background: #0069d9; border-color: #0062cc; }
+.form-container form button[type="submit"].btn-success { background: #28a745; border-color: #28a745; color: #fff; }
+.form-container form button[type="submit"].btn-success:hover { background: #218838; border-color: #1e7e34; }
+.auth-container button[type="submit"] { background: #007bff; border: 1px solid #007bff; color: #fff; font-size: 14px; font-weight: 600; transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease; }
+.auth-container button[type="submit"]:hover { background: #0069d9; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0, 123, 255, 0.25); }
+.auth-container button[type="submit"]:active { transform: translateY(0) scale(0.97); }
+.btn-secondary { background: #f1f5f9; border: 1px solid #cbd5e1; color: #334155; }
+.btn-secondary:hover { background: #e2e8f0; }
+.form-container form a { margin: 8px 4px 0 0; }
+
+
+/* =========================================================
+   SHINE EFFECT
+   ========================================================= */
+
+.btn-action::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.65),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+
+    pointer-events: none;
+}
+
+.btn-action:hover::before {
+    left: 140%;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+   ========================================================= */
+
+.btn-edit {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 14px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #dbeafe 0%,
+        #bfdbfe 100%
+    );
+
+    color: #1d4ed8 !important;
+
+    border: 1px solid #93c5fd;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(29, 78, 216, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.btn-edit::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.7),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+}
+
+.btn-edit:hover {
+    background: linear-gradient(
+        135deg,
+        #bfdbfe 0%,
+        #93c5fd 100%
+    );
+
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 6px 14px rgba(29, 78, 216, 0.18);
+}
+
+.btn-edit:hover::before {
+    left: 140%;
+}
+
+.btn-edit:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+   ========================================================= */
+
+.btn-delete {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 14px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #fee2e2 0%,
+        #fecaca 100%
+    );
+
+    color: #b91c1c !important;
+
+    border: 1px solid #fca5a5;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(185, 28, 28, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.btn-delete::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.65),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+}
+
+.btn-delete:hover {
+    background: linear-gradient(
+        135deg,
+        #fecaca 0%,
+        #fca5a5 100%
+    );
+
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 6px 14px rgba(185, 28, 28, 0.18);
+}
+
+.btn-delete:hover::before {
+    left: 140%;
+}
+
+.btn-delete:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   ATTENDANCE BUTTON
+   ========================================================= */
+
+.btn-attendance {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 14px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #dcfce7 0%,
+        #bbf7d0 100%
+    );
+
+    color: #15803d !important;
+
+    border: 1px solid #86efac;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(21, 128, 61, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.btn-attendance::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.7),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+}
+
+.btn-attendance:hover {
+    background: linear-gradient(
+        135deg,
+        #bbf7d0 0%,
+        #86efac 100%
+    );
+
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 6px 14px rgba(21, 128, 61, 0.18);
+}
+
+.btn-attendance:hover::before {
+    left: 140%;
+}
+
+.btn-attendance:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   PERFORMANCE BUTTON
+   ========================================================= */
+
+.btn-performance {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 14px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #fef3c7 0%,
+        #fde68a 100%
+    );
+
+    color: #a16207 !important;
+
+    border: 1px solid #fcd34d;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(161, 98, 7, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.btn-performance::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.7),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+}
+
+.btn-performance:hover {
+    background: linear-gradient(
+        135deg,
+        #fde68a 0%,
+        #fcd34d 100%
+    );
+
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 6px 14px rgba(161, 98, 7, 0.18);
+}
+
+.btn-performance:hover::before {
+    left: 140%;
+}
+
+.btn-performance:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   VIEW REPORT BUTTON
+   ========================================================= */
+
+.btn-report {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 35px;
+
+    padding: 8px 14px;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #ede9fe 0%,
+        #ddd6fe 100%
+    );
+
+    color: #6d28d9 !important;
+
+    border: 1px solid #c4b5fd;
+    border-radius: 7px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-decoration: none !important;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 2px 5px rgba(109, 40, 217, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        background 0.3s ease,
+        box-shadow 0.25s ease;
+}
+
+.btn-report::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.7),
+        transparent
+    );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.55s ease;
+}
+
+.btn-report:hover {
+    background: linear-gradient(
+        135deg,
+        #ddd6fe 0%,
+        #c4b5fd 100%
+    );
+
+    transform: translateY(-2px) scale(1.02);
+
+    box-shadow:
+        0 6px 14px rgba(109, 40, 217, 0.18);
+}
+
+.btn-report:hover::before {
+    left: 140%;
+}
+
+.btn-report:active {
+    transform: translateY(0) scale(0.97);
+}
+
+
+/* =========================================================
+   SMALL ACTION BUTTON
+   ========================================================= */
+
+.btn-action-small {
+    min-height: 32px;
+
+    padding: 7px 11px;
+
+    font-size: 12px;
+
+    border-radius: 6px;
+}
+
+
+/* =========================================================
+   FOCUS ACCESSIBILITY
+   ========================================================= */
+
+.btn-edit:focus-visible,
+.btn-delete:focus-visible,
+.btn-attendance:focus-visible,
+.btn-performance:focus-visible,
+.btn-report:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .btn,
+    .btn-edit,
+    .btn-delete,
+    .btn-attendance,
+    .btn-performance,
+    .btn-report {
+        transition: none;
+    }
+
+    .btn-edit::before,
+    .btn-delete::before,
+    .btn-attendance::before,
+    .btn-performance::before,
+    .btn-report::before {
+        display: none;
+    }
+
+    .btn:hover,
+    .btn-edit:hover,
+    .btn-delete:hover,
+    .btn-attendance:hover,
+    .btn-performance:hover,
+    .btn-report:hover {
+        transform: none;
+    }
+
+    .form-container button,
+    .data-table td button,
+    .report-actions button,
+    .report-actions a,
+    .data-table td a,
+    .form-container > a { transition: none; }
+
+    .form-container button:hover,
+    .data-table td button:hover,
+    .report-actions button:hover,
+    .report-actions a:hover,
+    .data-table td a:hover,
+    .form-container > a:hover { transform: none; }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+    .action-buttons {
+        width: 100%;
+
+        gap: 7px;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-attendance,
+    .btn-performance,
+    .btn-report {
+        flex: 1 1 auto;
+
+        min-width: 90px;
+    }
+
+    .actions-cell { min-width: 280px; }
+    .actions-cell .action-buttons { flex-direction: row; align-items: center; }
+}
+/* =========================================================
+   STUDENT ACTIONS COLUMN
+   ========================================================= */
+
+.actions-cell {
+    min-width: 360px;
+    vertical-align: middle;
+}
+
+.actions-cell .action-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.actions-cell .action-form {
+    display: inline-flex;
+    margin: 0;
 }

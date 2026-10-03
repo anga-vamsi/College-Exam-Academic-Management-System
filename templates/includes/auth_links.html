@@ -1,43 +1,64 @@
-
 <div class="auth-links">
 
     {% if session.get("username") %}
 
-        <span>
-            Welcome, {{ session.get("username") }}
-        </span>
+        <div class="auth-actions">
 
-        <a href="{{ url_for('profile') }}">
-            Profile
-        </a>
+            <span class="auth-welcome">
+                Welcome, {{ session.get("username") }}
+            </span>
 
-        <form
-            method="POST"
-            action="{{ url_for('logout') }}"
-            style="display: inline;"
-        >
+            <a
+                href="{{ url_for('profile') }}"
+                class="btn-profile"
+                title="View your profile"
+            >
+                Profile
+            </a>
 
-            <input
-                type="hidden"
-                name="_csrf_token"
-                value="{{ csrf_token() }}"
+            <form
+                method="POST"
+                action="{{ url_for('logout') }}"
+                class="action-form"
             >
 
-            <button type="submit">
-                Logout
-            </button>
+                <input
+                    type="hidden"
+                    name="_csrf_token"
+                    value="{{ csrf_token() }}"
+                >
 
-        </form>
+                <button
+                    type="submit"
+                    class="btn-logout"
+                    title="Logout"
+                >
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
 
     {% else %}
 
-        <a href="{{ url_for('login') }}">
-            Login
-        </a>
+        <div class="auth-actions">
 
-        <a href="{{ url_for('register') }}">
-            Register
-        </a>
+            <a
+                href="{{ url_for('login') }}"
+                class="btn btn-primary"
+            >
+                Login
+            </a>
+
+            <a
+                href="{{ url_for('register') }}"
+                class="btn btn-success"
+            >
+                Register
+            </a>
+
+        </div>
 
     {% endif %}
 
