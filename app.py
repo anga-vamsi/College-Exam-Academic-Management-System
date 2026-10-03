@@ -17,12 +17,15 @@ app.config["SECRET_KEY"] = Config.SECRET_KEY
 # =========================================================
 # Secure Session Cookie Configuration
 # =========================================================
+# HttpOnly prevents client-side JavaScript from reading the session cookie.
+# SameSite=Lax provides protection against common cross-site requests.
+# Secure is enabled in production by setting SESSION_COOKIE_SECURE=1.
+
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
     SESSION_COOKIE_SECURE=os.getenv("SESSION_COOKIE_SECURE", "0") == "1"
 )
-
 # =========================================================
 # CSRF Protection
 # =========================================================
@@ -44,6 +47,8 @@ def inject_csrf_token():
 @app.before_request
 def validate_csrf_token():
 
+    # CSRF protection is skipped only for automated tests.
+    # All real application POST requests are still validated.
     if request.method != "POST" or app.config.get("TESTING"):
         return
 
@@ -201,6 +206,7 @@ def home():
 
     role = session.get("role")
 
+    # Student → Student Dashboard
     if role == "STUDENT":
         student_id = session.get("student_id")
 
@@ -212,6 +218,7 @@ def home():
         flash("No student profile is linked to this account.", "error")
         return redirect(url_for("login"))
 
+    # Admin / Principal / Faculty → Academic Dashboard
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
@@ -1398,7 +1405,7 @@ def exams():
         try:
 
             cursor.execute("""
-                INSERT INTO exam_schedule
+                INSERT INTO Exam_Schedule
                 (
                     exam_id,
                     subject_id,
@@ -1441,7 +1448,7 @@ def exams():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM exam_schedule es
+        FROM Exam_Schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject s
@@ -1450,7 +1457,6 @@ def exams():
     """)
 
     exams_data = cursor.fetchall()
-
     cursor.execute("""
         SELECT
             exam_id,
@@ -1532,7 +1538,7 @@ def edit_exam(schedule_id):
         try:
 
             cursor.execute("""
-                UPDATE exam_schedule
+                UPDATE Exam_Schedule
                 SET
                     exam_id = %s,
                     subject_id = %s,
@@ -1566,7 +1572,7 @@ def edit_exam(schedule_id):
 
     cursor.execute("""
         SELECT *
-        FROM exam_schedule
+        FROM Exam_Schedule
         WHERE schedule_id = %s
     """, (schedule_id,))
 
@@ -1620,7 +1626,7 @@ def delete_exam(schedule_id):
     try:
 
         cursor.execute("""
-            DELETE FROM exam_schedule
+            DELETE FROM Exam_Schedule
             WHERE schedule_id = %s
         """, (schedule_id,))
 
@@ -2007,8 +2013,8 @@ def student_performance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-        if role != "STUDENT" or session.get("student_id") != student_id:
-            abort(403)
+       if role != "STUDENT" or session.get("student_id") != student_id:
+         abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -2043,8 +2049,8 @@ def student_attendance(student_id):
     role = session.get("role")
 
     if role not in ("ADMIN", "PRINCIPAL", "FACULTY"):
-        if role != "STUDENT" or session.get("student_id") != student_id:
-            abort(403)
+       if role != "STUDENT" or session.get("student_id") != student_id:
+         abort(403)
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
@@ -2077,7 +2083,6 @@ def student_attendance(student_id):
 def student_dashboard(student_id):
 
     role = session.get("role")
-
     if role not in ("ADMIN", "PRINCIPAL"):
         if role != "STUDENT" or session.get("student_id") != student_id:
             abort(403)
@@ -2432,7 +2437,7 @@ def exam_schedule_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM exam_schedule es
+        FROM Exam_Schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
@@ -2478,7 +2483,7 @@ def student_marks_report():
         FROM marks m
         JOIN student st
             ON m.student_id = st.student_id
-        JOIN exam_schedule es
+        JOIN Exam_Schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -2659,8 +2664,7 @@ def department_performance_report():
         GROUP BY
             d.dept_id,
             d.dept_name
-        ORDER BY
-            d.dept_name
+        ORDER BY d.dept_name
     """)
 
     departments = cursor.fetchall()
@@ -2707,7 +2711,7 @@ def subject_performance_report():
         FROM subject sub
         JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN exam_schedule es
+        LEFT JOIN Exam_Schedule es
             ON sub.subject_id = es.subject_id
         LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
@@ -3210,7 +3214,7 @@ def student_marks_detail():
             ON m.student_id = st.student_id
         JOIN course c
             ON st.course_id = c.course_id
-        JOIN exam_schedule es
+        JOIN Exam_Schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4010,7 +4014,7 @@ def exam_schedule_course_report():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM exam_schedule es
+        FROM Exam_Schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
@@ -4061,7 +4065,7 @@ def student_exam_schedule():
             ON st.course_id = c.course_id
         JOIN subject sub
             ON c.course_id = sub.course_id
-        JOIN exam_schedule es
+        JOIN Exam_Schedule es
             ON sub.subject_id = es.subject_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4124,7 +4128,7 @@ def student_subject_performance():
             ON m.student_id = st.student_id
         JOIN course c
             ON st.course_id = c.course_id
-        JOIN exam_schedule es
+        JOIN Exam_Schedule es
             ON m.schedule_id = es.schedule_id
         JOIN exam e
             ON es.exam_id = e.exam_id
@@ -4179,7 +4183,7 @@ def subject_marks_summary():
         FROM subject sub
         JOIN course c
             ON sub.course_id = c.course_id
-        LEFT JOIN exam_schedule es
+        LEFT JOIN Exam_Schedule es
             ON sub.subject_id = es.subject_id
         LEFT JOIN marks m
             ON es.schedule_id = m.schedule_id
@@ -4543,7 +4547,7 @@ def exam_subject_summary():
             es.exam_date,
             es.exam_time,
             es.room_no
-        FROM exam_schedule es
+        FROM Exam_Schedule es
         JOIN exam e
             ON es.exam_id = e.exam_id
         JOIN subject sub
@@ -4782,6 +4786,10 @@ def login():
                 password
             ):
 
+                # ---------------------------------------------
+                # Store user information in session
+                # ---------------------------------------------
+
                 session["user_id"] = user.get("id")
                 session["username"] = user["username"]
                 session["email"] = user["email"]
@@ -4854,7 +4862,21 @@ def register():
             ""
         )
 
+        # -------------------------------------------------
+        # Public registration role
+        # -------------------------------------------------
+        # Anyone registering through this page becomes
+        # a STUDENT.
+        #
+        # FACULTY, PRINCIPAL and ADMIN accounts should
+        # not be created through public registration.
+        # -------------------------------------------------
+
         role = "STUDENT"
+
+        # -------------------------------------------------
+        # Basic validation
+        # -------------------------------------------------
 
         if not username or not email or not password:
 
@@ -4878,6 +4900,10 @@ def register():
                 "register.html"
             )
 
+        # -------------------------------------------------
+        # Connect to database
+        # -------------------------------------------------
+
         connection = None
         cursor = None
 
@@ -4886,6 +4912,10 @@ def register():
             connection = get_db_connection()
 
             cursor = connection.cursor(dictionary=True)
+
+            # -------------------------------------------------
+            # Check whether username already exists
+            # -------------------------------------------------
 
             cursor.execute(
                 """
@@ -4909,6 +4939,10 @@ def register():
                     "register.html"
                 )
 
+            # -------------------------------------------------
+            # Check whether email already exists
+            # -------------------------------------------------
+
             cursor.execute(
                 """
                 SELECT email
@@ -4931,9 +4965,17 @@ def register():
                     "register.html"
                 )
 
+            # -------------------------------------------------
+            # Hash password
+            # -------------------------------------------------
+
             hashed_password = generate_password_hash(
                 password
             )
+
+            # -------------------------------------------------
+            # Insert user with role
+            # -------------------------------------------------
 
             cursor.execute(
                 """
@@ -5002,7 +5044,6 @@ def register():
         "register.html"
     )
 
-
 # =========================================================
 # Logout
 # =========================================================
@@ -5047,7 +5088,6 @@ def profile():
         email=session.get("email")
     )
 
-
 # =========================================================
 # 404 Page Not Found Handler
 # =========================================================
@@ -5055,7 +5095,6 @@ def profile():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
-
 
 # =========================================================
 # 403 Forbidden Handler
@@ -5065,7 +5104,6 @@ def page_not_found(error):
 def forbidden(error):
     return render_template("403.html"), 403
 
-
 # =========================================================
 # 500 Internal Server Error Handler
 # =========================================================
@@ -5073,7 +5111,6 @@ def forbidden(error):
 @app.errorhandler(500)
 def internal_server_error(error):
     return render_template("500.html"), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True)
