@@ -27,3 +27,5 @@ Thumbs.db
 # Local database / temporary files
 *.sqlite
 *.sqlite3
+college_academic_system_backup.sql
+college_academic_system_clean.sql
