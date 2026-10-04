@@ -1,231 +1,549 @@
-Update the EXISTING README.md of my College Exam & Academic Management System.
+# College Exam & Academic Management System
 
-IMPORTANT:
-- Modify README.md only.
-- Do not create any new files.
-- Do not modify Python, HTML, CSS, database, tests, or configuration files.
-- Do not invent features, URLs, statistics, screenshots, credentials, or deployment information.
-- Use only features that actually exist in the project.
+A secure, role-based web application for managing college academic activities such as students, faculty, courses, subjects, examinations, marks, results, and attendance.
 
-Project:
-College Exam & Academic Management System
+The system is built using **Python Flask and MySQL** and is deployed using **Render** with **Aiven MySQL** as the cloud database.
 
-Technology:
+---
+
+## 🚀 Live Application
+
+**Live Demo:**  
+https://college-exam-academic-management-system.onrender.com
+
+> The application is deployed on Render and uses a cloud-hosted Aiven MySQL database.
+
+---
+
+## 📌 GitHub Repository
+
+https://github.com/vamsi-bear/College-Exam-Academic-Management-System
+
+---
+
+## 📖 Project Overview
+
+The College Exam & Academic Management System provides a centralized platform for managing academic information within a college.
+
+The system supports multiple user roles with different permissions:
+
+- **Admin**
+- **Principal**
+- **Faculty**
+- **Student**
+
+Each role receives access only to the features appropriate for that role.
+
+The application provides academic management functionality along with security features such as password hashing, role-based authorization, CSRF protection, secure sessions, input validation, and error handling.
+
+---
+
+## ✨ Key Features
+
+### 🔐 Authentication & Authorization
+
+- Secure user login
+- Password hashing using Werkzeug
+- Role-based access control
+- Session-based authentication
+- Student account association
+- Secure logout
+- CSRF protection
+- Protected administrative routes
+
+### 👨‍🎓 Student Management
+
+- View students
+- Add students
+- Edit student information
+- Delete students
+- Search students
+- View student academic information
+- Student-specific dashboard
+
+### 👨‍🏫 Faculty Management
+
+- Faculty records
+- Department association
+- Faculty profile management
+- Role-based faculty access
+
+### 📚 Academic Management
+
+- Course management
+- Subject management
+- Department management
+- Semester information
+- Academic year information
+
+### 📝 Examination Management
+
+- Exam management
+- Exam scheduling
+- Subject-wise examination schedules
+- Exam date and time
+- Examination room information
+- Marks management
+
+### 📊 Academic Reports
+
+The system provides:
+
+- Student performance reports
+- Student attendance reports
+- Student result reports
+- Subject-wise performance information
+- Percentage calculation
+- Grade calculation
+- Pass/Fail status
+
+### 📅 Attendance Management
+
+- Total classes
+- Attended classes
+- Attendance percentage
+- Subject-wise attendance
+- Student attendance reports
+
+### 🛡️ Security
+
+The application includes:
+
+- Role-based authorization
+- CSRF protection
+- Password hashing
+- Secure session cookies
+- Input validation
+- Email validation
+- Phone validation
+- Integer and decimal validation
+- Protected database routes
+- Custom `403`, `404`, and `500` error pages
+- Environment-based configuration
+- Database connection cleanup
+
+---
+
+## 👥 User Roles
+
+| Role | Main Capabilities |
+|------|-------------------|
+| **ADMIN** | Manage students, faculty, courses, subjects, exams, results, attendance and reports |
+| **PRINCIPAL** | Access academic information, reports and management-level views |
+| **FACULTY** | Access academic information, subjects, results, attendance and student performance |
+| **STUDENT** | Access personal dashboard, performance, attendance and results |
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+
 - Python
 - Flask
-- MySQL 8.0
-- Jinja2 templates
+- MySQL Connector/Python
+- Werkzeug
+- Gunicorn
+
+### Frontend
+
 - HTML5
 - CSS3
 - JavaScript
-- pytest
-- Git/GitHub
+- Jinja2 Templates
 
-Document the following sections:
+### Database
 
-# College Exam & Academic Management System
+- MySQL 8
+- MySQL Views
+- MySQL Stored Procedures
 
-Add a professional one-paragraph project description explaining that this is a web-based academic management system for managing students, faculty, courses, subjects, examinations, results, attendance, dashboards, and academic reports.
+### Development
 
-## Features
+- Visual Studio Code
+- Git
+- GitHub
+- Python Virtual Environment
 
-Include only implemented features such as:
-- Student management
-- Faculty management
-- Course management
-- Subject management
-- Examination management
-- Result management
-- Attendance management
-- Student performance reports
-- Student attendance reports
-- Academic reports
-- Role-based access control
-- Login and registration
-- Profile
-- CSRF protection
-- Server-side validation
-- Secure session configuration
-- MySQL database integration
-- Search functionality
-- CRUD operations where implemented
+### Deployment
 
-## User Roles
+- Render
+- Aiven MySQL
 
-Document the implemented roles:
-- ADMIN
-- PRINCIPAL
-- FACULTY
-- STUDENT
+---
 
-Explain the access model briefly without claiming permissions that are not implemented.
+## 🏗️ System Architecture
 
-## Technology Stack
+```text
+                    ┌──────────────────────┐
+                    │       Browser        │
+                    │  HTML/CSS/JavaScript │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │      Flask App       │
+                    │      Python          │
+                    ├──────────────────────┤
+                    │ Authentication       │
+                    │ Authorization        │
+                    │ Validation            │
+                    │ Business Logic       │
+                    │ Reports              │
+                    └──────────┬───────────┘
+                               │
+                               ▼
+                    ┌──────────────────────┐
+                    │        MySQL         │
+                    │      Database        │
+                    ├──────────────────────┤
+                    │ Tables               │
+                    │ Views                │
+                    │ Stored Procedures    │
+                    └──────────────────────┘
+                    
+                    
+Production Architecture
 
-Create a clean table containing:
-Technology | Purpose
-
-Include Python, Flask, MySQL, HTML5, CSS3, JavaScript, Jinja2, pytest, Git, and GitHub.
-
-## Project Structure
-
-Show the important existing directories/files, for example:
-
+GitHub
+   │
+   ▼
+Render
+   │
+   │ Flask + Gunicorn
+   ▼
+Aiven MySQL
+   │
+   ▼
+Academic Database
+📂 Project Structure
 College-Exam-Academic-System/
+│
 ├── app.py
 ├── config.py
 ├── db.py
 ├── utils.py
-├── database.sql
 ├── requirements.txt
-├── requirements-dev.txt
 ├── pytest.ini
+├── README.md
 ├── .gitignore
-├── static/
+│
 ├── templates/
+│   ├── base.html
+│   ├── login.html
+│   ├── register.html
+│   ├── dashboard.html
+│   ├── students.html
+│   ├── faculty.html
+│   ├── courses.html
+│   ├── subjects.html
+│   ├── exams.html
+│   ├── results.html
+│   ├── attendance.html
+│   ├── student_performance.html
+│   └── ...
+│
+├── static/
+│   └── css/
+│       ├── auth.css
+│       ├── components.css
+│       ├── navbar.css
+│       └── report-actions.css
+│
 └── tests/
+    └── test_app.py
+🗄️ Database Design
 
-Do not invent files that do not exist.
+The main database is:
 
-## Database
-
-Explain that MySQL 8.0 is used.
-
-Mention the database name:
 college_academic_system
+Main Tables
+users
+student
+faculty
+department
+course
+subject
+exam
+exam_schedule
+marks
+result
+attendance
+Database Views
+student_attendance_view
+student_performance_view
+student_result_view
+Stored Procedures
+GetStudentAttendance
+GetStudentPerformance
+GetStudentResult
 
-Mention the major implemented entities:
+The stored procedures are used to generate structured academic reports.
+
+📊 Performance Report
+
+The Student Performance Report provides:
+
+Field	Description
+Exam	Examination name
+Subject	Subject code and subject name
+Total Marks	Marks obtained / maximum marks
+Percentage	Calculated percentage
+Grade	Calculated academic grade
+Status	PASS / FAIL
+
+Example:
+
+Exam       Subject                         Marks     Percentage   Grade   Status
+--------------------------------------------------------------------------------
+Mid Term   CS301 - Database Management     44/50      88%          A      PASS
+Mid Term   CS302 - Operating Systems       43/50      86%          A      PASS
+Mid Term   CS303 - Computer Networks       45/50      90%          A+     PASS
+📅 Attendance Report
+
+The attendance report includes:
+
 Student
-Faculty
-Department
-Course
-Subject
-Exam
-Exam Schedule
-Attendance
-Marks
-Result
-Users
+Roll Number
+Subject Code
+Subject Name
+Total Classes
+Attended Classes
+Attendance Percentage
 
-Mention that database connection settings are loaded from environment variables.
+Attendance percentage is calculated from the total and attended class counts.
 
-## Installation
+📈 Result Management
 
-Provide exact Windows setup instructions:
+The result module provides:
 
-1. Clone:
-git clone https://github.com/anga-vamsi/College-Exam-Academic-Management-System.git
+Total marks
+Percentage
+Grade
+Result status
+Examination
+Semester
+Academic year
 
-2. Enter:
-cd College-Exam-Academic-Management-System
+The system calculates academic status based on the student's marks.
 
-3. Create virtual environment:
+🔒 Security Implementation
+Password Security
+
+Passwords are stored using secure password hashing rather than plain text.
+
+Role-Based Access Control
+
+Protected routes use role validation to ensure users can access only authorized functionality.
+
+Example roles:
+
+ADMIN
+PRINCIPAL
+FACULTY
+STUDENT
+CSRF Protection
+
+POST requests are protected using CSRF tokens stored in the user's session.
+
+Session Security
+
+The application uses secure session configuration including:
+
+HttpOnly
+SameSite=Lax
+Secure Cookie support
+Input Validation
+
+The application validates:
+
+Text fields
+Email addresses
+Phone numbers
+Integer values
+Decimal values
+Dates
+Error Handling
+
+Custom error pages are implemented for:
+
+403 Forbidden
+404 Not Found
+500 Internal Server Error
+⚙️ Local Installation
+1. Clone the repository
+git clone https://github.com/vamsi-bear/College-Exam-Academic-Management-System.git
+
+Move into the project:
+
+cd College-Exam-Academic-System
+2. Create a virtual environment
+
+Windows:
+
 python -m venv venv
 
-4. Activate:
+Activate it:
+
 venv\Scripts\activate
+3. Install dependencies
+pip install -r requirements.txt
+🔑 Environment Variables
 
-5. Install dependencies:
-python -m pip install -r requirements.txt
+Create a .env file in the project root.
 
-6. Create a local .env file.
+Example:
 
-Use placeholders only:
-
-SECRET_KEY=your-secret-key
 MYSQL_HOST=localhost
+MYSQL_PORT=3306
 MYSQL_USER=root
-MYSQL_PASSWORD=your-mysql-password
+MYSQL_PASSWORD=your_mysql_password
 MYSQL_DATABASE=college_academic_system
 
-Clearly state:
-- Never commit .env.
-- Never put real database passwords in config.py.
-- The repository .gitignore excludes .env.
+SECRET_KEY=your_secret_key
 
-## Database Setup
+SESSION_COOKIE_SECURE=0
 
-Explain how to:
-- Start MySQL 8.0.
-- Create/select the college_academic_system database.
-- Import database.sql.
-- Verify the database connection.
+For production, use the appropriate cloud database credentials and:
 
-Do not include any real password.
+SESSION_COOKIE_SECURE=1
 
-## Running the Application
+Never commit .env or database passwords to GitHub.
 
-Show:
+🗃️ Database Setup
+
+Make sure MySQL is installed and running.
+
+Create the database:
+
+CREATE DATABASE college_academic_system;
+
+Then import the database schema/data using the appropriate SQL file.
+
+Example:
+
+mysql -u root -p college_academic_system < college_academic_system_clean.sql
+▶️ Run the Application
+
+Start the Flask application:
 
 python app.py
 
-Then:
+Open:
 
 http://127.0.0.1:5000
+🧪 Running Tests
 
-## Testing
+The project uses pytest.
 
-Document the actual latest test result:
+Run:
 
-60 passed, 2 warnings
+pytest
 
-Mention that the two warnings are deprecation warnings related to MySQL cursor stored procedure result handling and are not test failures.
+The test suite verifies important application functionality including routes, authentication, authorization and application behavior.
 
-Do not claim 100% coverage unless it exists in the project.
+☁️ Deployment
+Render
 
-## Security
+The Flask application is deployed on:
 
-Document only implemented security features:
-- Password hashing
-- Role-based authorization
-- CSRF protection
-- Environment-based secrets
-- HTTP-only session cookies
-- SameSite session cookies
-- Server-side input validation
-- POST-based destructive operations where implemented
+Render
 
-Do not claim encryption or security controls that are not actually implemented.
+Production start command:
 
-## UI
+gunicorn app:app
+Aiven
 
-Mention that the application uses existing reusable CSS components for:
-- Login
-- Register
-- Profile
-- Logout
-- Edit
-- Delete
-- Attendance
-- Performance
-- View Report
-- Search
-- Clear
-- Back to Home
-- Show/Hide
+The production MySQL database is hosted using:
 
-Mention smooth hover, active, focus, and responsive states where implemented.
+Aiven MySQL
 
-## Testing Command
+The Flask application connects to the cloud database through environment variables.
 
-Include:
+🔄 Deployment Workflow
+Developer
+    │
+    ▼
+VS Code
+    │
+    ▼
+Git
+    │
+    ▼
+GitHub
+    │
+    ▼
+Render
+    │
+    ▼
+Flask + Gunicorn
+    │
+    ▼
+Aiven MySQL
 
-python -m pytest
+Future changes can be committed and pushed using:
 
-## Repository
+git add .
+git commit -m "Your commit message"
+git push origin main
 
-Add:
+Render can then deploy the updated main branch.
 
-https://github.com/anga-vamsi/College-Exam-Academic-Management-System
+🌐 Project Links
+GitHub
 
-## Author
+https://github.com/vamsi-bear/College-Exam-Academic-Management-System
 
-Use:
+Live Application
+
+https://college-exam-academic-management-system.onrender.com
+
+🎯 Project Objectives
+
+The main objectives of the project are:
+
+Centralize academic information
+Reduce manual academic record management
+Provide role-based access
+Simplify student performance tracking
+Manage attendance efficiently
+Provide examination and result management
+Generate academic reports
+Improve security of academic data
+Provide a deployable cloud-based solution
+🚀 Future Enhancements
+
+Possible future improvements include:
+
+Email notifications
+Student result PDF generation
+Faculty-specific dashboards
+Advanced analytics
+Attendance alerts
+Automated report generation
+REST API integration
+Two-factor authentication
+Audit logging
+Cloud monitoring
+Mobile application
+🧑‍💻 Author
 
 Vamsi Anga
 
-Do not add personal contact information unless it is already present in README.md.
+Computer Science & Engineering Student
 
-Finish with a concise note that the project was developed for academic/educational purposes.
+GitHub:
 
-Make the README professional, clean, recruiter-friendly, and easy to scan.
+https://github.com/vamsi-bear
+
+📄 License
+
+This project is intended for academic, educational, and portfolio purposes.
+
+
+### Save it
+
+After replacing `README.md`, run:
+
+```bat
+git status
