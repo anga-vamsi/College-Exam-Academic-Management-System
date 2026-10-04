@@ -8,89 +8,110 @@ Student Performance
 
 <div class="page-container">
 
+    <h2>Student Performance Report</h2>
 
-<h2>Student Performance Report</h2>
+    {% if performance %}
 
-{% if performance %}
+    <p>
+        <strong>Student:</strong>
+        {{ performance[0].student_name }}
+    </p>
 
-<p>
-    <strong>Student:</strong>
-    {{ performance[0].student_name }}
-</p>
+    <p>
+        <strong>Roll No:</strong>
+        {{ performance[0].roll_no }}
+    </p>
 
-<p>
-    <strong>Roll No:</strong>
-    {{ performance[0].roll_no }}
-</p>
+    <p>
+        <strong>Course:</strong>
+        {{ performance[0].course_name }}
+    </p>
 
-<p>
-    <strong>Course:</strong>
-    {{ performance[0].course_name }}
-</p>
+    <table class="data-table">
 
-<table class="data-table">
+        <thead>
+            <tr>
+                <th>Exam</th>
+                <th>Subject</th>
+                <th>Total Marks</th>
+                <th>Percentage</th>
+                <th>Grade</th>
+                <th>Status</th>
+            </tr>
+        </thead>
 
-    <thead>
-        <tr>
-            <th>Exam</th>
-            <th>Total Marks</th>
-            <th>Percentage</th>
-            <th>Grade</th>
-            <th>Status</th>
-        </tr>
-    </thead>
+        <tbody>
 
-    <tbody>
+            {% for result in performance %}
 
-        {% for result in performance %}
+            <tr>
 
-        <tr>
-            <td>{{ result.exam_name }}</td>
-            <td>{{ result.total_marks }}</td>
-            <td>{{ result.percentage }}%</td>
-            <td>{{ result.grade }}</td>
-            <td>{{ result.result_status }}</td>
-        </tr>
+                <td>
+                    {{ result.exam_name }}
+                </td>
 
-        {% endfor %}
+                <td>
+                    {{ result.subject_code }}
+                    -
+                    {{ result.subject_name }}
+                </td>
 
-    </tbody>
+                <td>
+                    {{ result.total_marks }}
+                </td>
 
-</table>
+                <td>
+                    {{ result.percentage }}%
+                </td>
 
-{% else %}
+                <td>
+                    {{ result.grade }}
+                </td>
 
-<p>No performance records found for this student.</p>
+                <td>
+                    {{ result.result_status }}
+                </td>
 
-{% endif %}
+            </tr>
 
+            {% endfor %}
 
-<!-- Navigation -->
+        </tbody>
 
-<div class="form-container">
+    </table>
 
-    {% if session.get("role") == "STUDENT" %}
+    {% else %}
 
-        <a href="{{ url_for('student_dashboard', student_id=session.get('student_id')) }}">
-            ← Back to Dashboard
-        </a>
-
-    {% elif session.get("role") in ["ADMIN", "PRINCIPAL"] %}
-
-        <a href="{{ url_for('students') }}">
-            ← Back to Students
-        </a>
-
-    {% elif session.get("role") == "FACULTY" %}
-
-        <a href="{{ url_for('home') }}">
-            ← Back to Dashboard
-        </a>
+    <p>No performance records found for this student.</p>
 
     {% endif %}
 
-</div>
 
+    <!-- Navigation -->
+
+    <div class="form-container">
+
+        {% if session.get("role") == "STUDENT" %}
+
+            <a href="{{ url_for('student_dashboard', student_id=session.get('student_id')) }}">
+                ← Back to Dashboard
+            </a>
+
+        {% elif session.get("role") in ["ADMIN", "PRINCIPAL"] %}
+
+            <a href="{{ url_for('students') }}">
+                ← Back to Students
+            </a>
+
+        {% elif session.get("role") == "FACULTY" %}
+
+            <a href="{{ url_for('home') }}">
+                ← Back to Dashboard
+            </a>
+
+        {% endif %}
+
+    </div>
 
 </div>
 
